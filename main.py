@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-
-
 with st.echo(code_location='below'):
 
     df = pd.read_csv('gdp_csv.csv')
