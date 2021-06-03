@@ -5,7 +5,7 @@ import pandas as pd
 
 with st.echo(code_location='below'):
 
-    df = pd.read_csv('gdp_csv.csv')
+    df = pd.read_csv('https://www.kaggle.com/theworldbank/world-bank-gdp-ranking/download')
     function_country = []
     function_yearmin = []
     function_yearmax = []
