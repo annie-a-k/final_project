@@ -69,7 +69,7 @@ with st.echo(code_location='below'):
         if function_plus_field_to_func[function_plus_field[i-1]] == 'yes':
             any_graph(i)
 
-    st.title("Welcome to GDP visualizer!")
+    st.title("Welcome to GDP visualizer!!")
     st.write("In this app you can visualize data on country, regional and world GDP from 1960 to 2016 year."
              " The data is taken from Kaggle, where it is sourced from the World Bank."
              " You can find the source on Kaggle here: https://www.kaggle.com/tunguz/country-regional-and-world-gdp")
