@@ -100,10 +100,11 @@ with st.echo(code_location='below'):
             if "-" in element:
                 find_code_raw.remove(element)
                 divide_el = element.index("-")
-                start_el = element[0: divide_el]
-                end_el = element[divide_el + 1:]
-                for i in range(int(end_el) - int(start_el) + 1):
-                    find_code_raw.append(str(int(start_el) + i))
+                if not divide_el==0 and not divide_el==len(element)-1:
+                    start_el = element[0: divide_el]
+                    end_el = element[divide_el + 1:]
+                    for i in range(int(end_el) - int(start_el) + 1):
+                        find_code_raw.append(str(int(start_el) + i))
         for element in find_code_raw:
             if element in full_classification_for_search["Код"]:
                 find_code.append(element)
