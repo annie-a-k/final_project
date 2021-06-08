@@ -112,8 +112,7 @@ with st.echo(code_location='below'):
                 full_classification_for_search['Код'].astype("int").isin(find_code)]
             find_classification = drop_extra_columns(find_classification)
             find_classification_html = HTML(find_classification.to_html(escape=False))
-            print(find_classification)
-            print(find_classification_html)
+            st.write(find_classification_html)
         if not no_diseases == "" and count_no > 1:
             print("Расстройств с кодами", no_diseases[:-2], "не существует.")
         if not no_diseases == "" and count_no == 1:
