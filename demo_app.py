@@ -22,7 +22,6 @@ with st.echo(code_location='below'):
         linkss.append(f'<a href="{"https://mkb-10.com" + item.get("href")}">{item.text}</a>')
     d = {'Коды': codes, 'Категория': linkss}
     classification_categories = pd.DataFrame(data=d)
-    st.write(HTML(classification_categories.to_html(escape=False)))
     classification_categories.index = classification_categories["Коды"]
     classification_categories = classification_categories.drop("Коды", axis=1)
     classification_categories_html=HTML(classification_categories.to_html(escape=False))
@@ -50,7 +49,6 @@ with st.echo(code_location='below'):
                 linkss2.append(cl)
         d2 = {'Код': codes2, 'Расстройство': linkss2}
         classification_category = pd.DataFrame(data=d2)
-        classification_category
         classification = pd.concat([classification, classification_category])
     classification.index = classification["Код"]
     classification = classification.drop("Код", axis=1)
@@ -84,10 +82,10 @@ with st.echo(code_location='below'):
     full_classification_html = HTML(full_classification.to_html(escape=False))
     st.write(full_classification_html)
 
-st.write("Here you can find information about diseases based on their' codes. "
-         "You can print full codes (for ex, F02*) or only numbers."
-         "Divide codes using space."
-         "If you want a series of codes you can print them via "-" (for ex, 15-F18).")
+st.write("Here you can find information about diseases based on their' codes. ",
+         "You can print full codes (for ex., F02*) or only numbers.",
+         "Divide codes using space.",
+         "If you want a series of codes you can print them via \"-\" (for ex., 15-F18).")
 with st.echo(code_location='below'):
     find_code_raw = list(st.text_input("Write codes here:").split(" "))
     find_code = []
