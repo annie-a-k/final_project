@@ -1,7 +1,6 @@
 altair==4.1.0
 beautifulsoup4==4.9.3
 bokeh==2.3.2
-folium==0.12.1
 ipython==7.24.1
 json5==0.9.5
 lxml==4.6.3
