@@ -88,37 +88,38 @@ st.write("Here you can find information about diseases based on their' codes. ",
          "If you want a series of codes you can print them via \"-\" (for ex., 15-F18).")
 with st.echo(code_location='below'):
     find_code_raw = list(st.text_input("Write codes here:").split(" "))
-    find_code = []
-    no_diseases = ""
-    count_no = 0
-    for element in find_code_raw:
-        if "-" in element:
-            find_code_raw.remove(element)
-            divide_el = element.index("-")
-            start_el = element[0: divide_el]
-            end_el = element[divide_el + 1:]
-            for i in range(int(end_el) - int(start_el) + 1):
-                find_code_raw.append(str(int(start_el) + i))
-    for element in find_code_raw:
-        one_code = int(element.replace("F", "").replace("*", ""))
-        if one_code in full_classification_for_search["Код"]:
-            find_code.append(one_code)
-        else:
-            no_diseases = no_diseases + element + ", "
-            count_no = count_no + 1
-    if not len(find_code) == 0:
-        find_classification = full_classification_for_search[
-            full_classification_for_search['Код'].astype("int").isin(find_code)]
-        find_classification = drop_extra_columns(find_classification)
-        find_classification_html = HTML(find_classification.to_html(escape=False))
-        print(find_classification)
-        print(find_classification_html)
-    if not no_diseases == "" and count_no > 1:
-        print("Расстройств с кодами", no_diseases[:-2], "не существует.")
-    if not no_diseases == "" and count_no == 1:
-        print("Расстройства с кодом", no_diseases[:-2], "не существует.")
-    st.write("Мы смогли выбрать данные из таблички!")
-    st.balloons()
+    if not find_code_raw==[]:
+        find_code = []
+        no_diseases = ""
+        count_no = 0
+        for element in find_code_raw:
+            if "-" in element:
+                find_code_raw.remove(element)
+                divide_el = element.index("-")
+                start_el = element[0: divide_el]
+                end_el = element[divide_el + 1:]
+                for i in range(int(end_el) - int(start_el) + 1):
+                    find_code_raw.append(str(int(start_el) + i))
+        for element in find_code_raw:
+            one_code = int(element.replace("F", "").replace("*", ""))
+            if one_code in full_classification_for_search["Код"]:
+                find_code.append(one_code)
+            else:
+                no_diseases = no_diseases + element + ", "
+                count_no = count_no + 1
+        if not len(find_code) == 0:
+            find_classification = full_classification_for_search[
+                full_classification_for_search['Код'].astype("int").isin(find_code)]
+            find_classification = drop_extra_columns(find_classification)
+            find_classification_html = HTML(find_classification.to_html(escape=False))
+            print(find_classification)
+            print(find_classification_html)
+        if not no_diseases == "" and count_no > 1:
+            print("Расстройств с кодами", no_diseases[:-2], "не существует.")
+        if not no_diseases == "" and count_no == 1:
+            print("Расстройства с кодом", no_diseases[:-2], "не существует.")
+        st.write("Мы смогли выбрать данные из таблички!")
+        st.balloons()
 
 
 
