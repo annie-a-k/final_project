@@ -81,6 +81,7 @@ with st.echo(code_location='below'):
     full_classification = drop_extra_columns(full_classification_for_search)
     full_classification_html = HTML(full_classification.to_html(escape=False))
     st.write(full_classification_html)
+    #slider with numbers: how much to show
 
 st.write("Here you can find information about diseases based on their' codes. ",
          "You can print full codes (for ex., F02*) or only numbers.",
@@ -89,7 +90,7 @@ st.write("Here you can find information about diseases based on their' codes. ",
 with st.echo(code_location='below'):
     find_code_raw = list(st.text_input("Write codes here:").split(" "))
     st.write(find_code_raw)
-    if not find_code_raw==[]:
+    if not find_code_raw==[""]:
         find_code = []
         no_diseases = ""
         count_no = 0
