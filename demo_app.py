@@ -25,6 +25,8 @@ with st.echo(code_location='below'):
     st.write(HTML(classification_categories.to_html(escape=False)))
     classification_categories.index = classification_categories["Коды"]
     classification_categories = classification_categories.drop("Коды", axis=1)
+    classification_categories.columns = ["Коды", 'Категория']
+    #df.index = ['Row_1', 'Row_2', 'Row_3', 'Row_4']
     classification_categories_html=HTML(classification_categories.to_html(escape=False))
     st.write(classification_categories_html)
 
