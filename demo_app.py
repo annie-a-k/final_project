@@ -22,7 +22,7 @@ with st.echo(code_location='below'):
         linkss.append(f'<a href="{"https://mkb-10.com" + item.get("href")}">{item.text}</a>')
     d = {'Коды': codes, 'Категория': linkss}
     classification_categories = pd.DataFrame(data=d)
-    st.write(classification_categories)
+    st.write(HTML(classification_categories.to_html(escape=False)))
     classification_categories.index = classification_categories["Коды"]
     classification_categories = classification_categories.drop("Коды", axis=1)
     classification_categories_html=HTML(classification_categories.to_html(escape=False))
