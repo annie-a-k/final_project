@@ -104,12 +104,10 @@ with st.echo(code_location='below'):
                     start_el = element[0: divide_el]
                     end_el = element[divide_el + 1:]
                     for i in range(int(end_el) - int(start_el) + 1):
-                        find_code_raw.append(str(int(start_el) + i))
-        for element in find_code_raw:
-            element = int(element)
-            if element in full_classification_for_search["Код"]:
-                find_code.append(element)
-            else:
+                        find_code.append(str(int(start_el) + i))
+        for element in find_code:
+            if element not in full_classification_for_search["Код"]:
+                find_code.pop(index(element))
                 no_diseases = no_diseases + element + ", "
                 count_no = count_no + 1
         if not len(find_code) == 0:
