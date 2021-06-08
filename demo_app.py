@@ -26,7 +26,7 @@ with st.echo(code_location='below'):
     classification_categories = classification_categories.drop("Коды", axis=1)
     classification_categories_html=HTML(classification_categories.to_html(escape=False))
     print(classification_categories)
-    
+
     classification = pd.DataFrame()
     for elem in cat:
         new = requests.get("https://mkb-10.com" + elem.get("href"))
@@ -80,7 +80,7 @@ with st.echo(code_location='below'):
     full_classification_for_search = full_classification.drop(["index"], axis=1)
     full_classification = drop_extra_columns(full_classification_for_search)
     full_classification_html = HTML(full_classification.to_html(escape=False))
-    print(full_classification_html)
+    st.dataframe(data=full_classification_html)
 
     # here you can find information about diseases based on their' codes. You can print full codes (F02*) or only numbers.
     # Divide codes using space. If you want a series of codes you can print them via "-" (15-F18).
