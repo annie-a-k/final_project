@@ -24,8 +24,7 @@ with st.echo(code_location='below'):
     classification_categories = pd.DataFrame(data=d)
     classification_categories.index = classification_categories["Коды"]
     classification_categories = classification_categories.drop("Коды", axis=1)
-    classification_categories_html = HTML(classification_categories.to_html(escape=False))
-    print(classification_categories_html)
+    HTML(classification_categories.to_html(escape=False))
 
     classification = pd.DataFrame()
     for elem in cat:
