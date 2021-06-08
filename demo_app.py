@@ -88,10 +88,13 @@ st.write("Here you can find information about diseases based on their' codes. ",
          "If you want a series of codes you can print them via \"-\" (for ex., 15-F18).")
 with st.echo(code_location='below'):
     find_code_raw = list(st.text_input("Write codes here:").split(" "))
+    st.write(find_code_raw)
     if not find_code_raw==[]:
         find_code = []
         no_diseases = ""
         count_no = 0
+        for element in find_code_raw:
+            element = int(element.replace("F", "").replace("*", ""))
         for element in find_code_raw:
             if "-" in element:
                 find_code_raw.remove(element)
@@ -101,9 +104,8 @@ with st.echo(code_location='below'):
                 for i in range(int(end_el) - int(start_el) + 1):
                     find_code_raw.append(str(int(start_el) + i))
         for element in find_code_raw:
-            one_code = int(element.replace("F", "").replace("*", ""))
-            if one_code in full_classification_for_search["Код"]:
-                find_code.append(one_code)
+            if element in full_classification_for_search["Код"]:
+                find_code.append(element)
             else:
                 no_diseases = no_diseases + element + ", "
                 count_no = count_no + 1
