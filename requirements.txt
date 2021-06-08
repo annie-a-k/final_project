@@ -1,5 +1,5 @@
 altair==4.1.0
-beautifulsoup4 @ file:///home/linux1/recipes/ci/beautifulsoup4_1610988766420/work
+beautifulsoup4==4.9.3
 bokeh @ file:///C:/ci/bokeh_1620784067744/work
 folium @ file:///home/conda/feedstock_root/build_artifacts/folium_1615570722684/work
 ipython @ file:///C:/ci/ipython_1617121002983/work
