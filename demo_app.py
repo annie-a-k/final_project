@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from IPython.display import HTML
 
-
+st.write("Создаём dataframe с категориями психических расстройств и расстройств поведения по МКБ-10. По ссылочкам можно перейти в соответствующие разделы на сайте.")
 with st.echo(code_location='below'):
     url = 'https://mkb-10.com/index.php?pid=4001'
     r = requests.get(url)
@@ -25,11 +25,11 @@ with st.echo(code_location='below'):
     st.write(HTML(classification_categories.to_html(escape=False)))
     classification_categories.index = classification_categories["Коды"]
     classification_categories = classification_categories.drop("Коды", axis=1)
-    classification_categories.columns = ["Коды", 'Категория']
-    #df.index = ['Row_1', 'Row_2', 'Row_3', 'Row_4']
     classification_categories_html=HTML(classification_categories.to_html(escape=False))
     st.write(classification_categories_html)
 
+st.write("Парсим расстройства из категорий и объединяем их в одну табличку")
+with st.echo(code_location='below'):
     classification = pd.DataFrame()
     for elem in cat:
         new = requests.get("https://mkb-10.com" + elem.get("href"))
@@ -57,17 +57,16 @@ with st.echo(code_location='below'):
     classification_html = HTML(classification.to_html(escape=False))
     st.write(classification_html)
 
-
+st.write("Объединяем табличку с расстройствами и категориями по кодам")
+with st.echo(code_location='below'):
     def pure_code(full_code):
         return (int(full_code.replace("F", "").replace("*", "")))
-
 
     def drop_extra_columns(df):
         df = df.drop(['Код'], axis=1)
         df = df.rename(columns={'Полный код': 'Код'})
         df.index = df["Код"]
         return (df.drop(['Код'], axis=1))
-
 
     temp = pd.DataFrame(columns=["Код", "Категория"])
     for index, element in classification_categories.reset_index().iterrows():
@@ -85,9 +84,12 @@ with st.echo(code_location='below'):
     full_classification_html = HTML(full_classification.to_html(escape=False))
     st.write(full_classification_html)
 
-    # here you can find information about diseases based on their' codes. You can print full codes (F02*) or only numbers.
-    # Divide codes using space. If you want a series of codes you can print them via "-" (15-F18).
-    find_code_raw = list(input().split(" "))
+st.write("Here you can find information about diseases based on their' codes. "
+         "You can print full codes (for ex, F02*) or only numbers."
+         "Divide codes using space."
+         "If you want a series of codes you can print them via "-" (for ex, 15-F18).")
+with st.echo(code_location='below'):
+    find_code_raw = list(st.text_input("Write codes here:").split(" "))
     find_code = []
     no_diseases = ""
     count_no = 0
@@ -117,7 +119,8 @@ with st.echo(code_location='below'):
         print("Расстройств с кодами", no_diseases[:-2], "не существует.")
     if not no_diseases == "" and count_no == 1:
         print("Расстройства с кодом", no_diseases[:-2], "не существует.")
-
+    st.write("Мы смогли выбрать данные из таблички!")
+    st.balloons()
 
 
 
