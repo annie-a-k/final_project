@@ -112,6 +112,7 @@ with st.echo(code_location='below'):
                 no_diseases = no_diseases + element + ", "
                 count_no = count_no + 1
         if not len(find_code) == 0:
+            find_code = list(set(find_code)).remove("")
             find_classification = full_classification_for_search[
                 full_classification_for_search['Код'].astype("int").isin(find_code)]
             find_classification = drop_extra_columns(find_classification)
