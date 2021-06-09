@@ -95,7 +95,7 @@ with st.echo(code_location='below'):
         no_diseases = ""
         count_no = 0
         for element in find_code_raw:
-            element = int(element.replace("F", "").replace("*", ""))
+            element = element.replace("F", "").replace("*", "")
         for element in find_code_raw:
             if "-" in element:
                 find_code_raw.remove(element)
