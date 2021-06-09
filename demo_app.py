@@ -104,19 +104,19 @@ with st.echo(code_location='below'):
                     start_el = element[0: divide_el]
                     end_el = element[divide_el + 1:]
                     for i in range(int(end_el) - int(start_el) + 1):
-                        find_code.append(str(int(start_el) + i))
+                        find_code_raw.append(str(int(start_el) + i))
             else:
                 find_code.append(element)
         for element in find_code:
-            if element not in full_classification_for_search["Код"]:
-                find_code.remove(element)
+            if element in full_classification_for_search["Код"]:
+                find_code.append(int(element))
                 no_diseases = no_diseases + element + ", "
                 count_no = count_no + 1
         st.write(find_code)
         if not len(find_code) == 0:
             find_code = list(set(find_code)).remove("")
             find_classification = full_classification_for_search[
-                full_classification_for_search['Код'].isin(find_code)] #.astype("int")
+                full_classification_for_search['Код'].astype("int").isin(find_code)] 
             find_classification = drop_extra_columns(find_classification)
             find_classification_html = HTML(find_classification.to_html(escape=False))
             st.write(find_classification_html)
