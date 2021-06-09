@@ -112,8 +112,8 @@ with st.echo(code_location='below'):
         for element in find_code:
             element=int(element)
             if element in full_classification_for_search["Код"]:
-                find_code.append(int(element))
-                no_diseases = no_diseases + element + ", "
+                find_code.append(element)
+                no_diseases = no_diseases + str(element) + ", "
                 count_no = count_no + 1
         st.write(find_code)
         if not len(find_code) == 0:
