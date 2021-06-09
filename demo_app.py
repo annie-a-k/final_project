@@ -109,7 +109,7 @@ with st.echo(code_location='below'):
                 find_code.append(element)
         for element in find_code:
             if element not in full_classification_for_search["Код"]:
-                find_code.pop(index(element))
+                find_code.remove(element)
                 no_diseases = no_diseases + element + ", "
                 count_no = count_no + 1
         st.write(find_code)
