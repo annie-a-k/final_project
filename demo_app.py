@@ -107,8 +107,6 @@ with st.echo(code_location='below'):
                         find_code_raw.append(str(int(start_el) + i))
             else:
                 find_code.append(element)
-        if "" in find_code:
-            find_code = list(set(find_code)).remove("")
         for element in find_code:
             element=int(element)
             if element in full_classification_for_search["Код"]:
