@@ -114,9 +114,10 @@ with st.echo(code_location='below'):
                 count_no = count_no + 1
         st.write(find_code)
         if not len(find_code) == 0:
-            find_code = list(set(find_code)).remove("")
+            if "" in find_code:
+                find_code = list(set(find_code)).remove("")
             find_classification = full_classification_for_search[
-                full_classification_for_search['Код'].astype("int").isin(find_code)] 
+                full_classification_for_search['Код'].astype("int").isin(find_code)]
             find_classification = drop_extra_columns(find_classification)
             find_classification_html = HTML(find_classification.to_html(escape=False))
             st.write(find_classification_html)
