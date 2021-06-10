@@ -105,21 +105,23 @@ with st.echo(code_location='below'):
                 find_code_raw.remove(element)
                 divide_el = element.index("-")
                 if not divide_el==0 and not divide_el==len(element)-1:
-                    a = re.search(r'\d*', element[0: divide_el]).group(0)
-                    if not a=="":
-                        start_el = int(a)
+                    st.write(element[0: divide_el])
+                    a = re.search(r'\d*', element[0: divide_el])
+                    if not a.group(0)=="":
+                        start_el = int(a.group(0))
                         st.write(start_el)
-                    a = re.search(r'\d*', element[divide_el + 1:]).group(0)
-                    if not a=="":
-                        end_el = int(a)
+                    a = re.search(r'\d*', element[divide_el + 1:])
+                    st.write(element[divide_el+1:])
+                    if not a.group(0)=="":
+                        end_el = int(a.group(0))
                         st.write(end_el)
                     for i in range(end_el - start_el + 1):
                         find_code.append(start_el + i)
             else:
-                a = re.search(r'\d*', element).group(0)
-                st.write(a)
-                if not a=="":
-                    find_code.append(int(a))
+                a = re.search(r'\d*', element)
+                st.write(a.group(0))
+                if not a.group(0)=="":
+                    find_code.append(int(a.group(0)))
         st.write(find_code)
         find_code_final=[]
         for element in find_code:
@@ -136,9 +138,9 @@ with st.echo(code_location='below'):
             find_classification_html = HTML(find_classification.to_html(escape=False))
             st.write(find_classification_html)
         if not no_disorders == "" and count_no > 1:
-            print("Расстройств с кодами", no_disorders[:-2], "не существует.")
+            st.write("Расстройств с кодами", no_disorders[:-2], "не существует.")
         if not no_disorders == "" and count_no == 1:
-            print("Расстройства с кодом", no_disorders[:-2], "не существует.")
+            st.write("Расстройства с кодом", no_disorders[:-2], "не существует.")
         st.write("Мы смогли выбрать данные из таблички!")
         st.balloons()
     else:
