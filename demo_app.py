@@ -5,6 +5,7 @@ import numpy as np
 import requests
 from bs4 import BeautifulSoup
 from IPython.display import HTML
+import re
 
 st.write("Создаём dataframe с категориями психических расстройств и расстройств поведения по МКБ-10. По ссылочкам можно перейти в соответствующие разделы на сайте.")
 with st.echo(code_location='below'):
@@ -22,7 +23,7 @@ with st.echo(code_location='below'):
         linkss.append(f'<a href="{"https://mkb-10.com" + item.get("href")}">{item.text}</a>')
     d = {'Коды': codes, 'Категория': linkss}
     classification_categories = pd.DataFrame(data=d)
-    table1 = st.slider('Сколько строк таблицы отобразить?', classification_categories.index[0], classification_categories.index[-1], classification_categories.index[3])
+    table1 = st.slider('Сколько строк таблицы отобразить?', classification_categories.index[0], classification_categories.index[-1]+1, classification_categories.index[3])
     classification_categories.index = classification_categories["Коды"]
     classification_categories = classification_categories.drop("Коды", axis=1)
     classification_categories_html=HTML(classification_categories.head(table1).to_html(escape=False))
@@ -51,9 +52,11 @@ with st.echo(code_location='below'):
         d2 = {'Код': codes2, 'Расстройство': linkss2}
         classification_category = pd.DataFrame(data=d2)
         classification = pd.concat([classification, classification_category])
+    table2 = st.slider('Сколько строк таблицы отобразить?', classification.index[0],
+                       classification.index[-1] + 1, classification.index[3])
     classification.index = classification["Код"]
     classification = classification.drop("Код", axis=1)
-    classification_html = HTML(classification.to_html(escape=False))
+    classification_html = HTML(classification.head(table2).to_html(escape=False))
     st.write(classification_html)
 
 st.write("Объединяем табличку с расстройствами и категориями по кодам")
@@ -78,9 +81,11 @@ with st.echo(code_location='below'):
     classification_temp = classification.reset_index().rename(columns={'Код': 'Полный код'})
     classification_temp["Код"] = classification_temp["Полный код"].apply(pure_code)
     full_classification = classification_temp.reset_index().merge(temp, how="left", on='Код')
+    table3 = st.slider('Сколько строк таблицы отобразить?', full_classification.index[0],
+                       full_classification.index[-1] + 1, full_classification.index[3])
     full_classification_for_search = full_classification.drop(["index"], axis=1)
     full_classification = drop_extra_columns(full_classification_for_search)
-    full_classification_html = HTML(full_classification.to_html(escape=False))
+    full_classification_html = HTML(full_classification.head(table3).to_html(escape=False))
     st.write(full_classification_html)
     #slider with numbers: how much to show
 
@@ -96,18 +101,18 @@ with st.echo(code_location='below'):
         no_disorders = ""
         count_no = 0
         for element in find_code_raw:
-            element = element.replace("F", "").replace("*", "")
-        for element in find_code_raw:
             if "-" in element:
                 find_code_raw.remove(element)
                 divide_el = element.index("-")
                 if not divide_el==0 and not divide_el==len(element)-1:
-                    start_el = element[0: divide_el]
-                    end_el = element[divide_el + 1:]
+                    start_el = re.search(r'\d*', element[0: divide_el])
+                    end_el = re.search(r'\d*', element[divide_el + 1:])
                     for i in range(int(end_el) - int(start_el) + 1):
-                        find_code_raw.append(str(int(start_el) + i))
+                        find_code.append(str(int(start_el) + i))
             else:
-                find_code.append(element)
+                find_code.append(re.search(r'\d*', element))
+        st.write(find_code)
+        st.write(full_classification_for_search["Код"])
         for element in find_code:
             element=int(element)
             if element not in full_classification_for_search["Код"]:
@@ -127,6 +132,8 @@ with st.echo(code_location='below'):
             print("Расстройства с кодом", no_disorders[:-2], "не существует.")
         st.write("Мы смогли выбрать данные из таблички!")
         st.balloons()
+    else:
+        st.write("Вы не выбрали ни одного кода.")
 
 
 
