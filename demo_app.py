@@ -95,7 +95,6 @@ st.write("Here you can find information about disorders based on their' codes. "
          "If you want a series of codes you can print them via \"-\" (for ex., 15-F18).")
 with st.echo(code_location='below'):
     find_code_raw = list(st.text_input("Write codes here:").split(" "))
-    st.write(find_code_raw)
     if not find_code_raw==[""]:
         find_code = []
         no_disorders = ""
@@ -104,21 +103,16 @@ with st.echo(code_location='below'):
             if "-" in element:
                 divide_el = element.index("-")
                 if not divide_el==0 and not divide_el==len(element)-1:
-                    st.write(element[0: divide_el])
                     a = re.split(r'[^\d]', element[0: divide_el])
-                    st.write(a)
                     if "" in a:
                         a.remove("")
                     if not a == []:
                         start_el = int(a[0])
-                        st.write(start_el)
                     a = re.split(r'[^\d]', element[divide_el + 1:])
-                    st.write(element[divide_el+1:])
                     if "" in a:
                         a.remove("")
                     if not a == []:
                         end_el = int(a[0])
-                        st.write(end_el)
                     for i in range(end_el - start_el + 1):
                         find_code.append(start_el + i)
             else:
@@ -127,7 +121,6 @@ with st.echo(code_location='below'):
                     a.remove("")
                 if not a==[]:
                     find_code.append(int(a[0]))
-        st.write(find_code)
         find_code_final=[]
         for element in find_code:
             if element not in list(full_classification_for_search["Код"]):
@@ -135,7 +128,6 @@ with st.echo(code_location='below'):
                 count_no = count_no + 1
             else:
                 find_code_final.append(element)
-        st.write(find_code_final)
         if not len(find_code_final) == 0:
             find_classification = full_classification_for_search[
                 full_classification_for_search['Код'].astype("int").isin(find_code_final)]
