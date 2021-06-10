@@ -102,7 +102,6 @@ with st.echo(code_location='below'):
         count_no = 0
         for element in find_code_raw:
             if "-" in element:
-                find_code_raw.remove(element)
                 divide_el = element.index("-")
                 if not divide_el==0 and not divide_el==len(element)-1:
                     st.write(element[0: divide_el])
