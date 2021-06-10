@@ -52,6 +52,7 @@ with st.echo(code_location='below'):
         d2 = {'Код': codes2, 'Расстройство': linkss2}
         classification_category = pd.DataFrame(data=d2)
         classification = pd.concat([classification, classification_category])
+    classification=classification.reset_index()
     table2 = st.slider('Сколько строк таблицы отобразить?', classification.index[0],
                        classification.index[-1] + 1, classification.index[3])
     classification.index = classification["Код"]
