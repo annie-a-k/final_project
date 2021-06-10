@@ -118,10 +118,10 @@ with st.echo(code_location='below'):
                     for i in range(end_el - start_el + 1):
                         find_code.append(start_el + i)
             else:
-                a = re.split(r'[^\d*]', element)[0]
+                a = re.split(r'[^\d*]', element)
                 st.write(a)
                 if not a=="":
-                    find_code.append(int(a))
+                    find_code.append(int(a[1]))
         st.write(find_code)
         find_code_final=[]
         for element in find_code:
