@@ -105,22 +105,28 @@ with st.echo(code_location='below'):
                 divide_el = element.index("-")
                 if not divide_el==0 and not divide_el==len(element)-1:
                     st.write(element[0: divide_el])
-                    a = re.split(r'[^\d]', element[0: divide_el])[1]
+                    a = re.split(r'[^\d]', element[0: divide_el])
                     st.write(a)
-                    if not a=="":
-                        start_el = int(a)
+                    if "" in a:
+                        a.remove("")
+                    if not a == []:
+                        start_el = int(a[0])
                         st.write(start_el)
-                    a = re.split(r'[^\d]', element[divide_el + 1:])[1]
+                    a = re.split(r'[^\d]', element[divide_el + 1:])
                     st.write(element[divide_el+1:])
-                    if not a=="":
-                        end_el = int(a)
+                    if "" in a:
+                        a.remove("")
+                    if not a == []:
+                        end_el = int(a[0])
                         st.write(end_el)
                     for i in range(end_el - start_el + 1):
                         find_code.append(start_el + i)
             else:
-                a = re.split(r'[^\d]', element)[1]
-                if not a=="":
-                    find_code.append(int(a))
+                a = re.split(r'[^\d]', element)
+                if "" in a:
+                    a.remove("")
+                if not a==[]:
+                    find_code.append(int(a[0]))
         st.write(find_code)
         find_code_final=[]
         for element in find_code:
