@@ -121,15 +121,17 @@ with st.echo(code_location='below'):
                 if not a=="":
                     find_code.append(int(a))
         st.write(find_code)
+        find_code_final=[]
         for element in find_code:
             if element not in list(full_classification_for_search["Код"]):
-                find_code.remove(element)
                 no_disorders = no_disorders + str(element) + ", "
                 count_no = count_no + 1
-        st.write(find_code)
-        if not len(find_code) == 0:
+            else:
+                find_code_final.append(element)
+        st.write(find_code_final)
+        if not len(find_code_final) == 0:
             find_classification = full_classification_for_search[
-                full_classification_for_search['Код'].astype("int").isin(find_code)]
+                full_classification_for_search['Код'].astype("int").isin(find_code_final)]
             find_classification = drop_extra_columns(find_classification)
             find_classification_html = HTML(find_classification.to_html(escape=False))
             st.write(find_classification_html)
