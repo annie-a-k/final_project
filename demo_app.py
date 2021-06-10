@@ -23,7 +23,7 @@ with st.echo(code_location='below'):
         linkss.append(f'<a href="{"https://mkb-10.com" + item.get("href")}">{item.text}</a>')
     d = {'Коды': codes, 'Категория': linkss}
     classification_categories = pd.DataFrame(data=d)
-    table1 = st.slider('Сколько строк таблицы отобразить?', classification_categories.index[0], classification_categories.index[-1]+1, classification_categories.index[3])
+    table1 = st.slider('Сколько строк таблицы отобразить?', 1, len(classification_categories), 4)
     classification_categories.index = classification_categories["Коды"]
     classification_categories = classification_categories.drop("Коды", axis=1)
     classification_categories_html=HTML(classification_categories.head(table1).to_html(escape=False))
@@ -52,9 +52,8 @@ with st.echo(code_location='below'):
         d2 = {'Код': codes2, 'Расстройство': linkss2}
         classification_category = pd.DataFrame(data=d2)
         classification = pd.concat([classification, classification_category])
-    classification=classification.reset_index()
-    table2 = st.slider('Сколько строк таблицы отобразить?', classification.index[0],
-                       classification.index[-1] + 1, classification.index[3])
+    table2 = st.slider('Сколько строк таблицы отобразить?', 1,
+                       len(classification), 4)
     classification.index = classification["Код"]
     classification = classification.drop("Код", axis=1)
     classification_html = HTML(classification.head(table2).to_html(escape=False))
@@ -82,9 +81,8 @@ with st.echo(code_location='below'):
     classification_temp = classification.reset_index().rename(columns={'Код': 'Полный код'})
     classification_temp["Код"] = classification_temp["Полный код"].apply(pure_code)
     full_classification = classification_temp.reset_index().merge(temp, how="left", on='Код')
-    full_classification = full_classification.reset_index()
-    table3 = st.slider('Сколько строк таблицы отобразить?', full_classification.index[0],
-                       full_classification.index[-1] + 1, full_classification.index[3])
+    table3 = st.slider('Сколько строк таблицы отобразить?', 1,
+                       len(full_classification), 4)
     full_classification_for_search = full_classification.drop(["index"], axis=1)
     full_classification = drop_extra_columns(full_classification_for_search)
     full_classification_html = HTML(full_classification.head(table3).to_html(escape=False))
