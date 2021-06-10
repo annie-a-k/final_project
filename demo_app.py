@@ -82,6 +82,7 @@ with st.echo(code_location='below'):
     classification_temp = classification.reset_index().rename(columns={'Код': 'Полный код'})
     classification_temp["Код"] = classification_temp["Полный код"].apply(pure_code)
     full_classification = classification_temp.reset_index().merge(temp, how="left", on='Код')
+    full_classification = full_classification.reset_index()
     table3 = st.slider('Сколько строк таблицы отобразить?', full_classification.index[0],
                        full_classification.index[-1] + 1, full_classification.index[3])
     full_classification_for_search = full_classification.drop(["index"], axis=1)
