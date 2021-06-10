@@ -108,16 +108,18 @@ with st.echo(code_location='below'):
                     a = re.search(r'\d*', element[0: divide_el]).group(0)
                     if not a=="":
                         start_el = int(a)
+                        st.write(start_el)
                     a = re.search(r'\d*', element[divide_el + 1:]).group(0)
                     if not a=="":
                         end_el = int(a)
+                        st.write(end_el)
                     for i in range(end_el - start_el + 1):
                         find_code.append(start_el + i)
             else:
                 a = re.search(r'\d*', element).group(0)
                 st.write(a)
                 if not a=="":
-                    find_code.append(int(a[0]))
+                    find_code.append(int(a))
         st.write(find_code)
         for element in find_code:
             if element not in list(full_classification_for_search["Код"]):
