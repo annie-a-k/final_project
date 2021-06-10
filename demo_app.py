@@ -108,14 +108,12 @@ with st.echo(code_location='below'):
                     start_el = re.search(r'\d*', element[0: divide_el])
                     end_el = re.search(r'\d*', element[divide_el + 1:])
                     for i in range(int(end_el) - int(start_el) + 1):
-                        find_code.append(str(int(start_el) + i))
+                        find_code.append(int(start_el) + i)
             else:
-                find_code.append(re.search(r'\d*', element))
+                find_code.append(int(re.search(r'\d*', element)))
         st.write(find_code)
-        st.write(full_classification_for_search["Код"])
         for element in find_code:
-            element=int(element)
-            if element not in full_classification_for_search["Код"]:
+            if element not in list(full_classification_for_search["Код"]):
                 find_code.remove(element)
                 no_disorders = no_disorders + str(element) + ", "
                 count_no = count_no + 1
