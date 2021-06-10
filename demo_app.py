@@ -22,9 +22,10 @@ with st.echo(code_location='below'):
         linkss.append(f'<a href="{"https://mkb-10.com" + item.get("href")}">{item.text}</a>')
     d = {'Коды': codes, 'Категория': linkss}
     classification_categories = pd.DataFrame(data=d)
+    table1 = st.sidebar.slider('Сколько строк таблицы отобразить?', classification_categories.index, 0, 1)
     classification_categories.index = classification_categories["Коды"]
     classification_categories = classification_categories.drop("Коды", axis=1)
-    classification_categories_html=HTML(classification_categories.to_html(escape=False))
+    classification_categories_html=HTML(classification_categories.head(table1).to_html(escape=False))
     st.write(classification_categories_html)
 
 st.write("Парсим расстройства из категорий и объединяем их в одну табличку")
@@ -83,7 +84,7 @@ with st.echo(code_location='below'):
     st.write(full_classification_html)
     #slider with numbers: how much to show
 
-st.write("Here you can find information about diseases based on their' codes. ",
+st.write("Here you can find information about disorders based on their' codes. ",
          "You can print full codes (for ex., F02*) or only numbers.",
          "Divide codes using space.",
          "If you want a series of codes you can print them via \"-\" (for ex., 15-F18).")
@@ -92,7 +93,7 @@ with st.echo(code_location='below'):
     st.write(find_code_raw)
     if not find_code_raw==[""]:
         find_code = []
-        no_diseases = ""
+        no_disorders = ""
         count_no = 0
         for element in find_code_raw:
             element = element.replace("F", "").replace("*", "")
@@ -111,7 +112,7 @@ with st.echo(code_location='below'):
             element=int(element)
             if element not in full_classification_for_search["Код"]:
                 find_code.remove(element)
-                no_diseases = no_diseases + str(element) + ", "
+                no_disorders = no_disorders + str(element) + ", "
                 count_no = count_no + 1
         st.write(find_code)
         if not len(find_code) == 0:
@@ -120,10 +121,10 @@ with st.echo(code_location='below'):
             find_classification = drop_extra_columns(find_classification)
             find_classification_html = HTML(find_classification.to_html(escape=False))
             st.write(find_classification_html)
-        if not no_diseases == "" and count_no > 1:
-            print("Расстройств с кодами", no_diseases[:-2], "не существует.")
-        if not no_diseases == "" and count_no == 1:
-            print("Расстройства с кодом", no_diseases[:-2], "не существует.")
+        if not no_disorders == "" and count_no > 1:
+            print("Расстройств с кодами", no_disorders[:-2], "не существует.")
+        if not no_disorders == "" and count_no == 1:
+            print("Расстройства с кодом", no_disorders[:-2], "не существует.")
         st.write("Мы смогли выбрать данные из таблички!")
         st.balloons()
 
