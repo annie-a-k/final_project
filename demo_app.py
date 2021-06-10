@@ -115,8 +115,8 @@ with st.echo(code_location='below'):
                         find_code.append(start_el + i)
             else:
                 a = re.search(r'\d*', element)
-                print(a)
-                print(a[0])
+                st.write(a)
+                st.write(a[0])
                 if not a=="":
                     find_code.append(int(a[0]))
         st.write(find_code)
