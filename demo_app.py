@@ -147,7 +147,7 @@ with st.echo(code_location='below'):
     st.write("Mental and substance use disorders are common globally. In the map we see that globally, mental and substance use disorders are very common: around 1-in-7 people (15%) have one or more mental or substance use disorders. (c) Our world in data")
     share_with_disorders=pd.read_csv('share-with-mental-and-substance-disorders.csv')
     st.write(share_with_disorders)
-    world_share_with_disorders=share_with_disorders[share_with_disorders["Entity"]="World"]
+    world_share_with_disorders=share_with_disorders[share_with_disorders["Entity"]=="World"]
     st.write(world_share_with_disorders)
     prevalence_by_disorder=pd.read_csv("prevalence-by-mental-and-substance-use-disorder.csv")
     st.write(prevalence_by_disorder)
@@ -173,8 +173,6 @@ with st.echo(code_location='below'):
 
 
 
-
-    df = pd.read_csv('gdp_csv.csv')
     function_country = []
     function_yearmin = []
     function_yearmax = []
@@ -194,15 +192,19 @@ with st.echo(code_location='below'):
         'Yes!': 'yes',
         'O.o No...': 'no'
     }
+    function_choose_df_to_func = {
+        'Yes!': 'yes',
+        'O.o No...': 'no'
+    }
 
     def plotGDP(fr):
         fig, ax = plt.subplots()
-        for country in fr['Country Name'].unique():
-            countryfr = fr.loc[fr['Country Name'] == country]
-            countryfr.plot(y='Value', x='Year', ax=ax, xlabel='Year', ylabel='GDP', label=country)
+        for country in fr['Entity'].unique():
+            countryfr = fr.loc[fr['Entity'] == country]
+            countryfr.plot(y=fr.columns.values.tolist()[3], x='Year', ax=ax, xlabel='Year', ylabel='Prevalence', label=country)
         st.pyplot(fig)
 
-    def any_graph(i):
+    def any_graph(i, df):
         st.sidebar.write(f'Graph №{i+1}')
         st.write(f'Graph №{i+1}')
         st.write('There you can choose, what data to visualize and how to do it.'
@@ -241,7 +243,11 @@ with st.echo(code_location='below'):
              " The data is taken from Kaggle, where it is sourced from the World Bank."
              " You can find the source on Kaggle here: https://www.kaggle.com/tunguz/country-regional-and-world-gdp")
     function_show_df.append(' ')
+    function_choose_df[0] = st.selectbox('What dataframe to work with?', ('Yes!', 'O.o No...'),
+                                       key=f"chooseshow_{0}")
+    if function_choose_df_to_func[function_show_df[0]]=='yes':
+        st.write(df)
     function_show_df[0] = st.selectbox('Do you want to show the original dataframe?', ('Yes!', 'O.o No...'), key=f"chooseshow_{0}")
     if function_show_df_to_func[function_show_df[0]]=='yes':
         st.write(df)
-    any_graph(i)
+    any_graph(i, df)
