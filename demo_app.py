@@ -185,6 +185,8 @@ with st.echo(code_location='below'):
     prevalence_of_anxiety_by_gender = pd.read_csv("prevalence-of-anxiety-disorders-males-vs-females.csv")
     st.write(prevalence_of_anxiety_by_gender)
 
+    HLTHRES=pd.read_csv("HLTHRES_228_RU.csv")
+
 
 
     function_country = []
@@ -214,10 +216,21 @@ with st.echo(code_location='below'):
         "Доля психических расстройств и расстройств поведения среди всех заболеваний": share_of_all_diseases,
         "Доля населения с расстройствами пищевого поведения": share_with_an_eating_disorder,
         "Распространённость расстройств пищевого поведения в зависимости от пола": prevalence_of_eating_disorders_by_gender,
-        'Смертность от расстройств пищевого поведения': deaths_from_eating_disorders
+        'Смертность от расстройств пищевого поведения': deaths_from_eating_disorders,
+        "Доля населения с депрессией": share_with_depression,
+        "Распространённость депрессии в зависимости от пола": prevalence_of_depression_by_gender,
+        "Доля населения с тревожным расстройством": share_with_anxiety_disorders,
+        "Распространённость тревожного расстройства в зависимости от пола": prevalence_of_anxiety_by_gender
     }
 
     def plotType1(fr):
+        fig, ax = plt.subplots()
+        for country in fr['Entity'].unique():
+            countryfr = fr.loc[fr['Entity'] == country]
+            countryfr.plot(y=fr.columns.values.tolist()[3], x='Year', ax=ax, xlabel='Year', ylabel='Prevalence', label=country)
+        st.pyplot(fig)
+
+    def plotType2(fr):
         fig, ax = plt.subplots()
         for country in fr['Entity'].unique():
             countryfr = fr.loc[fr['Entity'] == country]
@@ -257,7 +270,7 @@ with st.echo(code_location='below'):
             st.write("Thank you for using me! (c) The app")
         if function_plus_field_to_func[function_plus_field[i-1]] == 'yes':
             function_choose_df[i] = st.selectbox('What dataframe to work with?', ('Yes!', 'O.o No...'),
-                                                 key=f"chooseshow_{i}")
+                                                 key=f"choosdf_{i}")
             df = function_choose_df_to_func[function_show_df[i]]
             any_graph(i, df)
 
@@ -272,10 +285,14 @@ with st.echo(code_location='below'):
         "Доля психических расстройств и расстройств поведения среди всех заболеваний",
         "Доля населения с расстройствами пищевого поведения",
         "Распространённость расстройств пищевого поведения в зависимости от пола",
-        'Смертность от расстройств пищевого поведения'),
+        'Смертность от расстройств пищевого поведения',
+        "Доля населения с депрессией",
+        "Распространённость депрессии в зависимости от пола",
+        "Доля населения с тревожным расстройством",
+        "Распространённость тревожного расстройства в зависимости от пола"),
                                        key=f"chooseshow_{0}")
     df=function_choose_df_to_func[function_choose_df[0]]
-    function_show_df[0] = st.selectbox('Do you want to show the original dataframe?', ('Yes!', 'O.o No...'), key=f"chooseshow_{0}")
+    function_show_df[0] = st.selectbox('Do you want to show the original dataframe?', ('Yes!', 'O.o No...'), key=f"choosdf_{0}")
     if function_show_df_to_func[function_show_df[0]]=='yes':
         st.write(df)
     any_graph(i, df)
