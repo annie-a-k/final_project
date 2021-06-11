@@ -185,6 +185,7 @@ with st.echo(code_location='below'):
     prevalence_of_anxiety_by_gender = pd.read_csv("prevalence-of-anxiety-disorders-males-vs-females.csv")
     st.write(prevalence_of_anxiety_by_gender)
 
+#больничные койки на душевнобольных
     HLTHRES=pd.read_csv("HLTHRES_228_RU.csv")
 
 
