@@ -144,8 +144,8 @@ with st.echo(code_location='below'):
         st.write("Вы не выбрали ни одного кода.")
 
 
-
-
+    dff=pd.read_cdv('anxiety-disorder-dalys-age-standardized-rate.csv')
+    st.write(dff)
 
 
     df = pd.read_csv('gdp_csv.csv')
