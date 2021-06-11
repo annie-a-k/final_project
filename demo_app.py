@@ -7,6 +7,20 @@ from bs4 import BeautifulSoup
 from IPython.display import HTML
 import re
 
+st.header("Почему психическое здоровье -- это важно?")
+st.subheader("Сайт с заботой о вашем ментальном здоровье")
+st.write("Как ориентироваться (для упрощения проверки):",
+         "Сначала идут все результаты, потом -- весь код. Программа разделена на подписанные",
+         "смысловые блоки (с помощью #).",
+         "Чтобы сайт не грузился слишком долго, большая часть функционала подгружается",
+         "Последовательно при выборе пользователем соответствующей опции.",
+         "Например, чтобы посмотреть на несколько вариантов построения графиков,",
+         "Необходимо выбрать одну из опций (выбрать датафрейм, выбрать тип графика,",
+         "выбрать данные). Также можно добавить неограниченное количество визуализаций с ",
+         "любой информацией и типом графика из предложенных опций."
+         "Как понять, что использовалось в программе? Смотрите комментарии в коде в конце приложения.",
+         "Иногда есть возможность посмотреть на промежуточные результаты работы программы. В таких случаях",
+         "По умолчанию выбрана опция не показывать результаты, которую необходимо будет изменить для отображения.")
 st.write("Создаём dataframe с категориями психических расстройств и расстройств поведения по МКБ-10. По ссылочкам можно перейти в соответствующие разделы на сайте.")
 with st.echo(code_location='below'):
     url = 'https://mkb-10.com/index.php?pid=4001'
@@ -196,7 +210,6 @@ with st.echo(code_location='below'):
     function_choose_df_to_func = {
         'Доля населения с психическими расстройствами и расстройствами поведения по странам': share_with_disorders,
         "Мир. Доля населения с психическими расстройствами и расстройствами поведения": world_share_with_disorders,
-        "Распространённость различных расстройств": prevalence_by_disorder,
         "Распространённость расстройств в зависимости от пола": share_by_gender,
         "Доля психических расстройств и расстройств поведения среди всех заболеваний": share_of_all_diseases,
         "Доля населения с расстройствами пищевого поведения": share_with_an_eating_disorder,
@@ -204,7 +217,7 @@ with st.echo(code_location='below'):
         'Смертность от расстройств пищевого поведения': deaths_from_eating_disorders
     }
 
-    def plotGDP(fr):
+    def plotType1(fr):
         fig, ax = plt.subplots()
         for country in fr['Entity'].unique():
             countryfr = fr.loc[fr['Entity'] == country]
@@ -234,9 +247,9 @@ with st.echo(code_location='below'):
         choose_type.append(' ')
         choose_type[i]=st.sidebar.selectbox('What type of graph do you want?', ('Annual GDP', 'Annual GDP2'), key=f"choosetype_{i}")
         if choose_type_to_func[choose_type[i]] == 'GDP':
-            plotGDP(ndf)
+            plotType1(ndf)
         if choose_type_to_func[choose_type[i]] == 'GDP2':
-            plotGDP(ndf)
+            plotType1(ndf)
         i = i + 1
         function_plus_field.append(' ')
         function_plus_field[i-1]=st.selectbox('Do you want one more graph?', ('Yes :)', 'No, I am tired'), index=1, key=f"choosefield_{i-1}")
@@ -248,7 +261,6 @@ with st.echo(code_location='below'):
             df = function_choose_df_to_func[function_show_df[i]]
             any_graph(i, df)
 
-    st.title("Welcome to GDP visualizer!!")
     st.write("In this app you can visualize data on country, regional and world GDP from 1960 to 2016 year."
              " The data is taken from Kaggle, where it is sourced from the World Bank."
              " You can find the source on Kaggle here: https://www.kaggle.com/tunguz/country-regional-and-world-gdp")
@@ -256,7 +268,6 @@ with st.echo(code_location='below'):
     function_choose_df.append(' ')
     function_choose_df[0] = st.selectbox('What dataframe to work with?', ('Доля населения с психическими расстройствами и расстройствами поведения по странам',
         "Мир. Доля населения с психическими расстройствами и расстройствами поведения",
-        "Распространённость различных расстройств",
         "Распространённость расстройств в зависимости от пола",
         "Доля психических расстройств и расстройств поведения среди всех заболеваний",
         "Доля населения с расстройствами пищевого поведения",
