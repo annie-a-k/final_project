@@ -253,6 +253,7 @@ with st.echo(code_location='below'):
              " The data is taken from Kaggle, where it is sourced from the World Bank."
              " You can find the source on Kaggle here: https://www.kaggle.com/tunguz/country-regional-and-world-gdp")
     function_show_df.append(' ')
+    function_choose_df.append(' ')
     function_choose_df[0] = st.selectbox('What dataframe to work with?', ('Доля населения с психическими расстройствами и расстройствами поведения по странам',
         "Мир. Доля населения с психическими расстройствами и расстройствами поведения",
         "Распространённость различных расстройств",
