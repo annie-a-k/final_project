@@ -193,8 +193,14 @@ with st.echo(code_location='below'):
         'O.o No...': 'no'
     }
     function_choose_df_to_func = {
-        'Yes!': 'yes',
-        'O.o No...': 'no'
+        'Доля населения с психическими расстройствами и расстройствами поведения по странам': share_with_disorders,
+        "Мир. Доля населения с психическими расстройствами и расстройствами поведения": world_share_with_disorders,
+        "Распространённость различных расстройств": prevalence_by_disorder,
+        "Распространённость расстройств в зависимости от пола": share_by_gender,
+        "Доля психических расстройств и расстройств поведения среди всех заболеваний": share_of_all_diseases,
+        "Доля населения с расстройствами пищевого поведения": share_with_an_eating_disorder,
+        "Распространённость расстройств пищевого поведения в зависимости от пола": prevalence_of_eating_disorders_by_gender,
+        'Смертность от расстройств пищевого поведения': deaths_from_eating_disorders
     }
 
     def plotGDP(fr):
@@ -236,7 +242,10 @@ with st.echo(code_location='below'):
         if function_plus_field_to_func[function_plus_field[i-1]] == 'no':
             st.write("Thank you for using me! (c) The app")
         if function_plus_field_to_func[function_plus_field[i-1]] == 'yes':
-            any_graph(i)
+            function_choose_df[i] = st.selectbox('What dataframe to work with?', ('Yes!', 'O.o No...'),
+                                                 key=f"chooseshow_{i}")
+            df = function_choose_df_to_func[function_show_df[i]]
+            any_graph(i, df)
 
     st.title("Welcome to GDP visualizer!!")
     st.write("In this app you can visualize data on country, regional and world GDP from 1960 to 2016 year."
@@ -245,8 +254,7 @@ with st.echo(code_location='below'):
     function_show_df.append(' ')
     function_choose_df[0] = st.selectbox('What dataframe to work with?', ('Yes!', 'O.o No...'),
                                        key=f"chooseshow_{0}")
-    if function_choose_df_to_func[function_show_df[0]]=='yes':
-        st.write(df)
+    df=function_choose_df_to_func[function_show_df[0]]
     function_show_df[0] = st.selectbox('Do you want to show the original dataframe?', ('Yes!', 'O.o No...'), key=f"chooseshow_{0}")
     if function_show_df_to_func[function_show_df[0]]=='yes':
         st.write(df)
