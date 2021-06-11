@@ -143,11 +143,33 @@ with st.echo(code_location='below'):
     else:
         st.write("Вы не выбрали ни одного кода.")
 
-
-    dff=pd.read_csv('anxiety-disorder-dalys-age-standardized-rate.csv')
-    st.write(dff)
+    st.write("Info is from https://ourworldindata.org/mental-health")
+    st.write("Mental and substance use disorders are common globally. In the map we see that globally, mental and substance use disorders are very common: around 1-in-7 people (15%) have one or more mental or substance use disorders. (c) Our world in data")
     share_with_disorders=pd.read_csv('share-with-mental-and-substance-disorders.csv')
     st.write(share_with_disorders)
+    prevalence_by_disorder=pd.read_csv("prevalence-by-mental-and-substance-use-disorder.csv")
+    st.write(prevalence_by_disorder)
+    share_by_sex=pd.read_csv("share-with-mental-or-substance-disorders-by-sex.csv")
+    st.write(share_by_sex)
+    share_of_all_diseases=pd.read_csv("mental-and-substance-use-as-share-of-disease.csv")
+    st.write(share_of_all_diseases)
+    #anxiety_disorder = pd.read_csv('anxiety-disorder-dalys-age-standardized-rate.csv')
+    #st.write(anxiety_disorder)
+    share_with_an_eating_disorder=pd.read_csv("share-with-an-eating-disorder.csv")
+    st.write(share_with_an_eating_disorder)
+    prevalence_of_eating_disorders_by_gender=pd.read_csv("prevalence-of-eating-disorders-in-males-vs-females.csv")
+    st.write(prevalence_of_eating_disorders_by_gender)
+    deaths_from_eating_disorders=pd.read_csv("deaths-from-eating-disorders.csv")
+    st.write(deaths_from_eating_disorders)
+
+    share_with_depression = pd.read_csv("share-with-depression.csv")
+    st.write(share_with_depression)
+    prevalence_of_depression_by_gender = pd.read_csv("prevalence-of-depression-males-vs-females.csv")
+    st.write(prevalence_of_depression_by_gender)
+    share_with_anxiety_disorders = pd.read_csv("share-with-anxiety-disorders.csv")
+    st.write(share_with_anxiety_disorders)
+    prevalence_of_anxiety_by_gender = pd.read_csv("prevalence-of-anxiety-disorders-males-vs-females.csv")
+    st.write(prevalence_of_anxiety_by_gender)
 
 
     df = pd.read_csv('gdp_csv.csv')
