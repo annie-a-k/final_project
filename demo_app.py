@@ -270,6 +270,7 @@ with st.echo(code_location='below'):
         if function_plus_field_to_func[function_plus_field[i-1]] == 'no':
             st.write("Thank you for using me! (c) The app")
         if function_plus_field_to_func[function_plus_field[i-1]] == 'yes':
+            function_choose_df.append(' ')
             function_choose_df[i] = st.selectbox('What dataframe to work with?', ('Yes!', 'O.o No...'),
                                                  key=f"choosdf_{i}")
             df = function_choose_df_to_func[function_show_df[i]]
