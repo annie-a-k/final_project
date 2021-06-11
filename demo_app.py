@@ -283,7 +283,7 @@ with st.echo(code_location='below'):
         "Доля населения с тревожным расстройством",
         "Распространённость тревожного расстройства в зависимости от пола"),
                                                  key=f"choosdf_{i}")
-            df = function_choose_df_to_func[function_show_df[i]]
+            df = function_choose_df_to_func[function_choose_df[i]]
             any_graph(i, df)
 
     st.write("In this app you can visualize data on country, regional and world GDP from 1960 to 2016 year."
