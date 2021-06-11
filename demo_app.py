@@ -147,7 +147,7 @@ with st.echo(code_location='below'):
     st.write("Mental and substance use disorders are common globally. In the map we see that globally, mental and substance use disorders are very common: around 1-in-7 people (15%) have one or more mental or substance use disorders. (c) Our world in data")
     share_with_disorders=pd.read_csv('share-with-mental-and-substance-disorders.csv')
     st.write(share_with_disorders)
-    world_share_with_disorders=share_with_disorders["World", axis=0]
+    world_share_with_disorders=share_with_disorders[share_with_disorders["Entity"]="World"]
     st.write(world_share_with_disorders)
     prevalence_by_disorder=pd.read_csv("prevalence-by-mental-and-substance-use-disorder.csv")
     st.write(prevalence_by_disorder)
@@ -170,6 +170,8 @@ with st.echo(code_location='below'):
     st.write(share_with_anxiety_disorders)
     prevalence_of_anxiety_by_gender = pd.read_csv("prevalence-of-anxiety-disorders-males-vs-females.csv")
     st.write(prevalence_of_anxiety_by_gender)
+
+
 
 
     df = pd.read_csv('gdp_csv.csv')
@@ -208,11 +210,11 @@ with st.echo(code_location='below'):
         function_country.append(' ')
         function_yearmin.append(' ')
         function_yearmax.append(' ')
-        function_country[i]=st.sidebar.multiselect('Choose regions', df['Country Name'].unique(), key=f"chooseregion_{i}")
-        function_yearmin[i]=st.sidebar.slider('What year you want to start from?', 1960, 2016, 1960, 1, key=f"choosemin_{i}")
-        function_yearmax[i]=st.sidebar.slider('What year you want to end with?', function_yearmin[i], 2016, 2016, 1, key=f"choosemax_{i}")
+        function_country[i]=st.sidebar.multiselect('Choose regions', df['Entity'].unique(), key=f"chooseregion_{i}")
+        function_yearmin[i]=st.sidebar.slider('What year you want to start from?', 1990, 2017, 1990, 1, key=f"choosemin_{i}")
+        function_yearmax[i]=st.sidebar.slider('What year you want to end with?', function_yearmin[i], 2017, 2017, 1, key=f"choosemax_{i}")
         year = list(range(function_yearmin[i], function_yearmax[i] + 1))
-        ndf0 = df.loc[df['Country Name'].isin(function_country[i])]
+        ndf0 = df.loc[df['Entity'].isin(function_country[i])]
         ndf0['Year'] = pd.to_numeric(ndf0['Year'])
         ndf1 = ndf0.loc[ndf0['Year'].isin(year)]
         ndf = ndf1.dropna()
