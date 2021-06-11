@@ -179,6 +179,7 @@ with st.echo(code_location='below'):
     choose_type = []
     function_plus_field = []
     function_show_df = []
+    function_choose_df = []
     i = 0
     function_plus_field_to_func = {
         'Yes :)': 'yes',
@@ -254,7 +255,7 @@ with st.echo(code_location='below'):
     function_show_df.append(' ')
     function_choose_df[0] = st.selectbox('What dataframe to work with?', ('Yes!', 'O.o No...'),
                                        key=f"chooseshow_{0}")
-    df=function_choose_df_to_func[function_show_df[0]]
+    df=function_choose_df_to_func[function_choose_df[0]]
     function_show_df[0] = st.selectbox('Do you want to show the original dataframe?', ('Yes!', 'O.o No...'), key=f"chooseshow_{0}")
     if function_show_df_to_func[function_show_df[0]]=='yes':
         st.write(df)
