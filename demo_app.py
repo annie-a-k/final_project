@@ -146,8 +146,8 @@ with st.echo(code_location='below'):
 
     dff=pd.read_csv('anxiety-disorder-dalys-age-standardized-rate.csv')
     st.write(dff)
-    share-with-disorders=pd.read_csv('share-with-mental-and-substance-disorders.csv')
-    st.write(share-with-disorders)
+    share_with_disorders=pd.read_csv('share-with-mental-and-substance-disorders.csv')
+    st.write(share_with_disorders)
 
 
     df = pd.read_csv('gdp_csv.csv')
