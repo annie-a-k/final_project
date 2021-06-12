@@ -262,7 +262,7 @@ with st.echo(code_location='below'):
         choose_type.append(' ')
         choose_type[i] = st.sidebar.selectbox('What type of graph do you want?', ('График, оси XY', 'Карта'),
                                               key=f"choosetype_{i}")
-        if choose_type_to_func[choose_type[i]] == '1':
+        if function_choose_type_to_func[choose_type[i]] == '1':
             function_country[i]=st.sidebar.multiselect('Choose regions', df['Entity'].unique(), key=f"chooseregion_{i}")
             function_yearmin[i] = st.sidebar.slider('What year you want to start from?', 1990, 2017, 1990, 1,
                                                     key=f"choosemin_{i}")
