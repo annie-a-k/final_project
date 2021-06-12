@@ -253,7 +253,7 @@ with st.echo(code_location='below'):
         function_yearmin.append(' ')
         function_yearmax.append(' ')
         function_all_or_some.append(" ")
-        function_all_or_some[i]=st.sidebar.select('Хотите рассмотреть все регионы или отдельные?', ("Все", "Отдельные"), "Все", key=f"chooseallorsome_{i}")
+        function_all_or_some[i]=st.sidebar.selectbox('Хотите рассмотреть все регионы или отдельные?', ("Все", "Отдельные"), "Все", key=f"chooseallorsome_{i}")
         if function_all_or_some[i]=="Все":
             function_country[i]=df['Entity'].unique()
         else:
