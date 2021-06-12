@@ -282,9 +282,9 @@ with st.echo(code_location='below'):
         function_show_df[i + 1]=st.selectbox('Do you want to show the dataframe?', ('Yes!', 'O.o No...'), key=f"chooseshow_{i+1}")
         if function_show_df_to_func[function_show_df[i + 1]] == 'yes':
             st.write(ndf)
-        if choose_type_to_func[choose_type[i]] == '1':
+        if function_choose_type_to_func[choose_type[i]] == '1':
             plotType1(ndf)
-        if choose_type_to_func[choose_type[i]] == '2':
+        if function_choose_type_to_func[choose_type[i]] == '2':
             plotType2(ndf)
         i = i + 1
         function_plus_field.append(' ')
