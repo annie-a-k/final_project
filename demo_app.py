@@ -234,14 +234,13 @@ with st.echo(code_location='below'):
         shapefile = 'ne_110m_admin_0_countries.shp'
         gdf = gpd.read_file(shapefile)[['ADMIN', 'ADM0_A3', 'geometry']]
         gdf.columns = ['country', 'country_code', 'geometry']
-        st.pyplot(fig)
         data = fr
         data[data.columns.values.tolist()[3]] = data[data.columns.values.tolist()[3]].fillna(0)
         merged = gdf.merge(data, left_on='country_code', right_on='Code', how='left')
         merged.head()
-        merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
+        st.pyplot(merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
             prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64")
-        ).plot(column=merged.columns.values.tolist()[6], legend=True)
+        ).plot(column=merged.columns.values.tolist()[6], legend=True))
 
     def any_graph(i, df):
         st.sidebar.write(f'Graph №{i+1}')
@@ -257,7 +256,7 @@ with st.echo(code_location='below'):
         if function_all_or_some[i]=="Все":
             function_country[i]=df['Entity'].unique()
         else:
-            function_country[i]=st.sidebar.multiselect('Choose regions', df['Entity'].unique(), "World", key=f"chooseregion_{i}")
+            function_country[i]=st.sidebar.multiselect('Choose regions', df['Entity'].unique(), key=f"chooseregion_{i}")
         function_yearmin[i]=st.sidebar.slider('What year you want to start from?', 1990, 2017, 1990, 1, key=f"choosemin_{i}")
         function_yearmax[i]=st.sidebar.slider('What year you want to end with?', function_yearmin[i], 2017, 2017, 1, key=f"choosemax_{i}")
         year = list(range(function_yearmin[i], function_yearmax[i] + 1))
