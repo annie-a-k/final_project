@@ -229,7 +229,6 @@ with st.echo(code_location='below'):
         st.pyplot(fig)
 
     def plotType2(fr):
-        fig, ax = plt.subplots()
         shapefile = 'ne_110m_admin_0_countries.shp'
         gdf = gpd.read_file(shapefile)[['ADMIN', 'ADM0_A3', 'geometry']]
         gdf.columns = ['country', 'country_code', 'geometry']
@@ -241,6 +240,7 @@ with st.echo(code_location='below'):
         merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
             prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64")
         )
+        fig, ax = plt.subplots()
         merged.plot(ax=ax, column="prevalence", legend=True)
         st.pyplot(fig)
 
@@ -346,7 +346,7 @@ with st.echo(code_location='below'):
         driver.get(entrypoint)
         element = driver.find_element_by_xpath("/html/body/div[6]/div[1]/div[3]")
         st.write(entrypoint)
-        driver.open(entrypoint)
+        driver.navigate().to(entrypoint)
         numbers = re.search(r'(\+)?[\+7,8](.)?(\()?\d{3,3}(\))?(.)?\d{3,3}((-)?\d{2,2}){2,2}', element.text)
         if not isinstance(numbers, NoneType):
             st.write(numbers.group(0))
