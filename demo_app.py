@@ -339,11 +339,12 @@ with st.echo(code_location='below'):
     y = df_new[df_new.columns.values.tolist()[1]]
     regr.fit(X, y)
     st.write("regr.coef_: ", regr.coef_, " regr.intercept_: ", regr.intercept_)
+    df_new = df_new.assign(year=lambda x: x[df_new.columns.values.tolist()[0]].astype("int64"))
 
-    fig1, ax = plt.subplots()
+    fig, ax = plt.subplots()
     df_new.plot.scatter(df_new.columns.values.tolist()[0], df_new.columns.values.tolist()[1])
-    df_new.plot(X[df_new.columns.values.tolist()[0]], regr.predict(X), color='C1')
-    st.pyplot(fig1)
+    df_new.plot(X[df_new.columns.values.tolist()[0]], column=regr.predict(X), color='C1')
+    st.pyplot(fig)
 
     st.write("Проверим, действительно ли модель улучшается, когда предсказывает по двум параметрам, а не по одному.")
     df_new = df_new.sample(frac=1, random_state=1)
