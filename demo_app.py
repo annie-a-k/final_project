@@ -44,7 +44,7 @@ with st.echo(code_location='below'):
     classification_categories_html=HTML(classification_categories.head(table1).to_html(escape=False))
     st.write(classification_categories_html)
 
-st.write("Парсим расстройства из категорий и объединяем их в одну табличку")
+    st.write("Парсим расстройства из категорий и объединяем их в одну табличку")
     classification = pd.DataFrame()
     for elem in cat:
         new = requests.get("https://mkb-10.com" + elem.get("href"))
@@ -73,7 +73,7 @@ st.write("Парсим расстройства из категорий и об�
     classification_html = HTML(classification.head(table2).to_html(escape=False))
     st.write(classification_html)
 
-st.write("Объединяем табличку с расстройствами и категориями по кодам")
+    st.write("Объединяем табличку с расстройствами и категориями по кодам")
     def pure_code(full_code):
         return (int(full_code.replace("F", "").replace("*", "")))
 
@@ -102,7 +102,7 @@ st.write("Объединяем табличку с расстройствами 
     st.write(full_classification_html)
     #slider with numbers: how much to show
 
-st.write("Here you can find information about disorders based on their' codes. ",
+    st.write("Here you can find information about disorders based on their' codes. ",
          "You can print full codes (for ex., F02*) or only numbers.",
          "Divide codes using space.",
          "If you want a series of codes you can print them via \"-\" (for ex., 15-F18).")
@@ -183,7 +183,7 @@ st.write("Here you can find information about disorders based on their' codes. "
     prevalence_of_anxiety_by_gender = pd.read_csv("prevalence-of-anxiety-disorders-males-vs-females.csv")
     st.write(prevalence_of_anxiety_by_gender)
 
-#больничные койки на душевнобольных
+    #больничные койки на душевнобольных
     #HLTHRES=pd.read_csv("HLTHRES_228_RU.csv")
 
 
