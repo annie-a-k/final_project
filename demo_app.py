@@ -323,7 +323,22 @@ with st.echo(code_location='below'):
         st.write(df)
     any_graph(i, df)
 
-
+    st.write(
+        "А это граф, визуализирующий наличие корреляции между повышенной распространённостью различных расстройств (выше среднемирового уровня)")
+    frrame = pd.read_csv('for_graf_by_site.csv')
+    frrame = frrame.dropna(how='all')
+    frrame = frrame[frrame['Year'] == 2017]
+    graph = nx.DiGraph()
+    for _, row in frrame.iterrows():
+        graph.add_edge(row['Unnamed: 2'], row["Unnamed: 3"])
+    plt.figure(figsize=(10, 8))
+    graph.remove_node("Nothing")
+    # net = Network(width='800px', notebook=True)
+    # net.from_nx(graph)
+    fig, ax = plt.subplots() 
+    nx.draw_shell(graph, with_labels=True)
+    # st.write(net.show("visualization.html"))
+    st.pyplot(fig)
 
     st.write("Давайте построим простую предсказательную модель зависимости смертей по причине расстройств пищевого поведения от распространённости этих расстройств и от года. ",
              "Возьмём общемировую статистику и воспользуемся линейной регрессией.")
@@ -369,22 +384,6 @@ with st.echo(code_location='below'):
     st.write("Следовательно, предсказание на основе двух параметров наиболее эффективное. Как можно заметить, с течением времени смертность от расстройств пищевого поведения увеличивается.")
 
 
-
-
-    st.write("А это граф, визуализирующий наличие корреляции между повышенной распространённостью различных расстройств (выше среднемирового уровня)")
-    frrame = pd.read_csv('for_graf_by_site.csv')
-    frrame = frrame.dropna(how='all')
-    frrame = frrame[frrame['Year']== 2017]
-    graph = nx.DiGraph()
-    for _, row in frrame.iterrows():
-        graph.add_edge(row['Unnamed: 2'], row["Unnamed: 3"])
-    plt.figure(figsize=(10, 8))
-    graph.remove_node("Nothing")
-    #net = Network(width='800px', notebook=True)
-    #net.from_nx(graph)
-    fig=nx.draw_shell(graph, with_labels=True)
-    #st.write(net.show("visualization.html"))
-    st.pyplot(fig)
 
 
 
