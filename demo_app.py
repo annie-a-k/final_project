@@ -241,10 +241,10 @@ with st.echo(code_location='below'):
         merged.head()
         merged = merged[(merged['Year'] == 1990) | (merged['Year'] == '1990')]
         #начал отладку здесь
-        merged=merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
+        fig=merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
             prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64")
         )
-        ax=merged.plot(column="prevalence", legend=True)
+        ax=fig.plot(column="prevalence", legend=True)
         merged.plot(ax=ax)
         st.pyplot(fig)
 
