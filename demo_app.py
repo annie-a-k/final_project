@@ -342,7 +342,7 @@ with st.echo(code_location='below'):
     graph.remove_node("Nothing")
     net = Network(width='800px', notebook=True)
     net.from_nx(graph)
-    st.write("visualization.html")
+    st.write(visualization.html)
 
 
 
