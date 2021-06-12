@@ -12,8 +12,8 @@ from selenium import webdriver
 import os
 from sklearn.linear_model import LinearRegression
 
-st.header("Почему психическое здоровье -- это важно?")
-st.subheader("Сайт с заботой о вашем ментальном здоровье")
+st.header("Сайт с заботой о вашем ментальном здоровье")
+st.subheader("Почему это важно?")
 st.write("Как ориентироваться (для упрощения проверки):",
          "Сначала идут все результаты, потом -- весь код. Программа разделена на подписанные",
          "смысловые блоки (с помощью #).",
@@ -343,7 +343,7 @@ with st.echo(code_location='below'):
 
     fig, ax = plt.subplots()
     df_new.plot.scatter(df_new.columns.values.tolist()[0], df_new.columns.values.tolist()[1])
-    df_new.plot(X[df_new.columns.values.tolist()[0]], column=regr.predict(X), color='C1')
+    df_new.plot(X.iloc[df_new.columns.values.tolist()[0]], regr.predict(X), color='C1')
     st.pyplot(fig)
 
     st.write("Проверим, действительно ли модель улучшается, когда предсказывает по двум параметрам, а не по одному.")
