@@ -333,7 +333,7 @@ with st.echo(code_location='below'):
 
     # Функция, которая позволяет перейти на сайт случайного психотерапевта
     def get_ps(name):
-        EXE_PATH = r'C:\Users\User\Desktop\chromedriver.exe'  # EXE_PATH это путь до ранее загруженного нами файла chromedriver.exe
+        EXE_PATH = r'chromedriver.exe'  # EXE_PATH это путь до ранее загруженного нами файла chromedriver.exe
         driver = webdriver.Chrome(executable_path=EXE_PATH)
         entrypoint = str("https://oppl.ru/professionalyi-personalii/" + name + ".html")
         driver.get(entrypoint)
