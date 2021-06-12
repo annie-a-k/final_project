@@ -232,14 +232,12 @@ with st.echo(code_location='below'):
         shapefile = 'ne_110m_admin_0_countries.shp'
         gdf = gpd.read_file(shapefile)[['ADMIN', 'ADM0_A3', 'geometry']]
         gdf.columns = ['country', 'country_code', 'geometry']
-        data = fr.drop(["Code", "Year"], axis=1)
-        data[data.columns.values.tolist()[1]] = data[data.columns.values.tolist()[1]].fillna(0)
+        data = fr
         merged = gdf.merge(data, left_on='country_code', right_on='Code', how='left')
+        merged=merged.drop(["Code", "Year", "country", "country_code", "Entity"], axis=1)
+        merged=merged.dropna(axis=0, subset=[merged.columns.values.tolist()[1]]).assign(
+            prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64"))
         st.write(merged.head())
-        merged = merged[(merged['Year'] == 1990) | (merged['Year'] == '1990')]
-        merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
-            prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64")
-        )
         fig, ax = plt.subplots()
         merged.plot(ax=ax, column="prevalence", legend=True)
         st.pyplot(fig)
