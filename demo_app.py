@@ -241,7 +241,7 @@ with st.echo(code_location='below'):
         merged.head()
         merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
             prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64")
-        ).plot(y=merged.columns.values.tolist()[6], legend=True, ax=ax, ylabel="Prevalence")
+        ).plot(column=merged.columns.values.tolist()[6], legend=True)
         st.pyplot(fig)
 
     def any_graph(i, df):
