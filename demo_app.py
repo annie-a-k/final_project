@@ -9,6 +9,7 @@ import re
 import geopandas as gpd
 import random as rd
 from selenium import webdriver
+import os
 
 st.header("Почему психическое здоровье -- это важно?")
 st.subheader("Сайт с заботой о вашем ментальном здоровье")
@@ -233,7 +234,7 @@ with st.echo(code_location='below'):
         gdf = gpd.read_file(shapefile)[['ADMIN', 'ADM0_A3', 'geometry']]
         gdf.columns = ['country', 'country_code', 'geometry']
         data = fr.drop(["Code", "Year"], axis=1)
-        data[data.columns.values.tolist()[3]] = data[data.columns.values.tolist()[3]].fillna(0)
+        data[data.columns.values.tolist()[1]] = data[data.columns.values.tolist()[1]].fillna(0)
         merged = gdf.merge(data, left_on='country_code', right_on='Code', how='left')
         merged.head()
         merged = merged[(merged['Year'] == 1990) | (merged['Year'] == '1990')]
@@ -331,9 +332,18 @@ with st.echo(code_location='below'):
         'Если Вы хотите обратиться за помощью к специалисту, но не знаете, к кому, можете воспользоваться этим рандомайзером.',
         "Он откроет ссылку на страницу одного из специалистов Профессиональной Психотерапевтической Лиги и (при наличии) выпишет первый указанный им мобильный телефон для связи.")
 
-    # Функция, которая позволяет перейти на сайт случайного психотерапевта
+    # Функция, которая позволяет перейти на страницу со случайным психотерапевтом
     def get_ps(name):
-        driver = webdriver.Chrome(executable_path='chromedriver.exe')
+
+##Начало позаимствованного кода. Источник: https://www.andressevilla.com/running-chromedriver-with-python-selenium-on-heroku/
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--no-sandbox")
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+##Конец позаимствованного кода
+
         entrypoint = str("https://oppl.ru/professionalyi-personalii/" + name + ".html")
         driver.get(entrypoint)
         element = driver.find_element_by_xpath("/html/body/div[6]/div[1]/div[3]")
