@@ -11,6 +11,8 @@ import random as rd
 from selenium import webdriver
 import os
 from sklearn.linear_model import LinearRegression
+import networkx as nx
+from pyvis.network import Network
 
 st.header("Сайт с заботой о вашем ментальном здоровье")
 st.subheader("Почему это важно?")
@@ -325,6 +327,9 @@ with st.echo(code_location='below'):
         st.write(df)
     any_graph(i, df)
 
+
+
+"""
     st.write("Давайте построим простую предсказательную модель зависимости смертей по причине расстройств пищевого поведения от распространённости этих расстройств и от года. ",
              "Возьмём общемировую статистику и воспользуемся линейной регрессией.")
     ##Машинное обучение сделано с опорой на конспект лекции от 20 апреля 2021 года.
@@ -367,6 +372,26 @@ with st.echo(code_location='below'):
     st.write("Среднеквадратичная ошибка при использовании для предсказания только распространённости расстройств:", get_RSS([df_new.columns.values.tolist()[2]], regr))
     st.write("Среднеквадратичная ошибка при использовании для предсказания обоих параметров", get_RSS(["Year", df_new.columns.values.tolist()[2]], regr))
     st.write("Следовательно, предсказание на основе двух параметров наиболее эффективное. Как можно заметить, с течением времени смертность от расстройств пищевого поведения увеличивается.")
+"""
+
+
+
+
+
+    frrame = pd.read_csv('for_graf_by_site.csv')
+    frrame = frrame.dropna(how='all')
+    frrame = frrame[frrame['Year']== 1990]
+    graph = nx.DiGraph()
+    for _, row in frrame.iterrows():
+        graph.add_edge(row['Unnamed: 2'], row["Unnamed: 3"])
+    plt.figure(figsize=(10, 8))
+    graph.remove_node("Nothing")
+    net = Network(width='800px', notebook=True)
+    net.from_nx(graph)
+    st.write("visualization.html")
+
+
+
 
 
     st.write(
