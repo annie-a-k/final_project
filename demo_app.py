@@ -10,6 +10,7 @@ import geopandas as gpd
 import random as rd
 from selenium import webdriver
 import os
+from sklearn.linear_model import LinearRegression
 
 st.header("Почему психическое здоровье -- это важно?")
 st.subheader("Сайт с заботой о вашем ментальном здоровье")
@@ -323,6 +324,45 @@ with st.echo(code_location='below'):
     if function_show_df_to_func[function_show_df[0]]=='yes':
         st.write(df)
     any_graph(i, df)
+
+    st.write("Давайте построим простую предсказательную модель зависимости смертей по причине расстройств пищевого поведения от распространённости этих расстройств и от года.",
+             "Воспользуемся линейной регрессией.")
+    ##Машинное обучение сделано с опорой на конспект лекции от 20 апреля 2021 года.
+    df01_new = share_with_an_eating_disorder
+    df02_new = deaths_from_eating_disorders
+    df01_new = df01_new[df01_new["Entity"] == "World"].drop(["Code", "Entity"], axis=1)
+    df02_new = df02_new[df02_new["Entity"] == "World"].drop(["Code", "Entity"], axis=1)
+    df_new = df02_new.merge(df01_new, left_on='Year', right_on="Year", how='inner')
+    st.write(df_new)
+    regr = LinearRegression()
+    X = df_new[['Year', df_new.columns.values.tolist()[2]]]
+    y = df_new[df_new.columns.values.tolist()[1]]
+    regr.fit(X, y)
+    st.write("regr.coef_: ", regr.coef_, " regr.intercept_: ", regr.intercept_)
+    df_new.plot.scatter(df_new.columns.values.tolist()[0], df_new.columns.values.tolist()[1])
+    st.pyplot(X[df_new.columns.values.tolist()[0]], regr.predict(X), color='C1')
+    st.write("Проверим, действительно ли модель улучшается, когда предсказывает по двум параметрам, а не по одному.")
+    df_new = df_new.sample(frac=1, random_state=1)
+    train = df_new[:int(df_new.shape[0] * 0.7)]
+    test = df_new[int(df_new.shape[0] * 0.7):]
+    def get_RSS(Features, estimator):
+        X_train = train[Features]
+        y_train = train[df_new.columns.values.tolist()[1]]
+
+        X_test = test[Features]
+        y_test = test[df_new.columns.values.tolist()[1]]
+
+        estimator.fit(X_train, y_train)
+
+        def rss(y, y_hat):
+            return ((y - y_hat) ** 2).sum()
+
+        return rss(estimator.predict(X_test), y_test)
+    st.write("Среднеквадратичная ошибка при использовании для предсказания только года:", get_RSS([df_new.columns.values.tolist()[0]], regr))
+    st.write("Среднеквадратичная ошибка при использовании для предсказания только распространённости расстройств:", get_RSS([df_new.columns.values.tolist()[2]], regr))
+    st.write("Среднеквадратичная ошибка при использовании для предсказания обоих параметров", get_RSS(["Year", df_new.columns.values.tolist()[2]], regr))
+    st.write("Следовательно, предсказание на основе двух параметров наиболее эффективное. Как можно заметить, с течением времени смертность от расстройств пищевого поведения увеличивается.")
+
 
     st.write(
         'Если вы хотите обратиться за помощью к специалисту, но не знаете к кому, можете воспользоваться этим рандомайзером.',
