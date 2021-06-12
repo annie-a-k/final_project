@@ -326,7 +326,7 @@ with st.echo(code_location='below'):
         "Распространённость тревожного расстройства в зависимости от пола"),
                                        key=f"chooseshow_{0}")
     df=function_choose_df_to_func[function_choose_df[0]]
-    function_show_df[0] = st.selectbox('Do you want to show the original dataframe?', ('Yes!', 'O.o No...'), index=1 key=f"choosdf_{0}")
+    function_show_df[0] = st.selectbox('Do you want to show the original dataframe?', ('Yes!', 'O.o No...'), index=1, key=f"choosdf_{0}")
     if function_show_df_to_func[function_show_df[0]]=='yes':
         st.write(df)
     any_graph(i, df)
