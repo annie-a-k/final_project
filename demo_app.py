@@ -269,7 +269,7 @@ with st.echo(code_location='below'):
             function_yearmax[i] = st.sidebar.slider('What year you want to end with?', function_yearmin[i], 2017, 2017,
                                                     1, key=f"choosemax_{i}")
             year = list(range(function_yearmin[i], function_yearmax[i] + 1))
-        if choose_type_to_func[choose_type[i]] == '2':
+        if function_choose_type_to_func[choose_type[i]] == '2':
             function_country[i]=df['Entity'].unique()
             function_all_or_some[i]=st.sidebar.slider('Выберите год', 1990, 2017, 1990, 1,
                                                     key=f"choosemin_{i}")
