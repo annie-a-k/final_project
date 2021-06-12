@@ -335,7 +335,7 @@ with st.echo(code_location='below'):
     graph.remove_node("Nothing")
     # net = Network(width='800px', notebook=True)
     # net.from_nx(graph)
-    fig, ax = plt.subplots() 
+    fig, ax = plt.subplots()
     nx.draw_shell(graph, with_labels=True)
     # st.write(net.show("visualization.html"))
     st.pyplot(fig)
@@ -396,12 +396,14 @@ with st.echo(code_location='below'):
     def get_ps(name):
 
 ##Начало позаимствованного кода. Источник: https://www.andressevilla.com/running-chromedriver-with-python-selenium-on-heroku/
+##FROM: https://www.andressevilla.com/running-chromedriver-with-python-selenium-on-heroku/
         chrome_options = webdriver.ChromeOptions()
         chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+##END FROM: https://www.andressevilla.com/running-chromedriver-with-python-selenium-on-heroku/
 ##Конец позаимствованного кода.
 
         entrypoint = str("https://oppl.ru/professionalyi-personalii/" + name + ".html")
