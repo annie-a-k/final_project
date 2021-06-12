@@ -231,6 +231,7 @@ with st.echo(code_location='below'):
         st.pyplot(fig)
 
     def plotType2(fr):
+        fig, ax = plt.subplots()
         shapefile = 'ne_110m_admin_0_countries.shp'
         gdf = gpd.read_file(shapefile)[['ADMIN', 'ADM0_A3', 'geometry']]
         gdf.columns = ['country', 'country_code', 'geometry']
@@ -240,8 +241,8 @@ with st.echo(code_location='below'):
         merged.head()
         fig=merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
             prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64")
-        )
-        st.pyplot(fig)#, column=merged.columns.values.tolist()[6], legend=True)
+        ).plot(y=merged.columns.values.tolist()[6], legend=True, ax=ax, ylabel="Prevalence")
+        st.pyplot(fig)
 
     def any_graph(i, df):
         st.sidebar.write(f'Graph №{i+1}')
