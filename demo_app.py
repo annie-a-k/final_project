@@ -195,6 +195,7 @@ st.write("Here you can find information about disorders based on their' codes. "
     function_plus_field = []
     function_show_df = []
     function_choose_df = []
+    function_all_or_some = []
     i = 0
     function_plus_field_to_func = {
         'Yes :)': 'yes',
@@ -247,23 +248,29 @@ st.write("Here you can find information about disorders based on their' codes. "
         st.write(f'Graph №{i+1}')
         st.write('There you can choose, what data to visualize and how to do it.'
                  ' Remember that there will not be correct visualization if you choose non-existing combination of parameters.')
+        st.write("Стандартный график поддерживает выбор отдельных регионов. Для карты лучше выбрать все имеющиеся данные.")
         function_country.append(' ')
         function_yearmin.append(' ')
         function_yearmax.append(' ')
-        function_country[i]=st.sidebar.multiselect('Choose regions', df['Entity'].unique(), key=f"chooseregion_{i}")
+        function_all_or_some.append(" ")
+        function_all_or_some[i]=st.sidebar.select('Хотите рассмотреть все регионы или отдельные?', ("Все", "Отдельные"), "Все", key=f"chooseallorsome_{i}")
+        if function_all_or_some[i]=="Все":
+            function_country[i]=df['Entity'].unique()
+        else:
+            function_country[i]=st.sidebar.multiselect('Choose regions', df['Entity'].unique(), "World", key=f"chooseregion_{i}")
         function_yearmin[i]=st.sidebar.slider('What year you want to start from?', 1990, 2017, 1990, 1, key=f"choosemin_{i}")
         function_yearmax[i]=st.sidebar.slider('What year you want to end with?', function_yearmin[i], 2017, 2017, 1, key=f"choosemax_{i}")
         year = list(range(function_yearmin[i], function_yearmax[i] + 1))
+        df=df.dropna()
         ndf0 = df.loc[df['Entity'].isin(function_country[i])]
         ndf0['Year'] = pd.to_numeric(ndf0['Year'])
-        ndf1 = ndf0.loc[ndf0['Year'].isin(year)]
-        ndf = ndf1.dropna()
+        ndf = ndf0.loc[ndf0['Year'].isin(year)]
         function_show_df.append(' ')
         function_show_df[i + 1]=st.selectbox('Do you want to show the dataframe?', ('Yes!', 'O.o No...'), key=f"chooseshow_{i+1}")
         if function_show_df_to_func[function_show_df[i + 1]] == 'yes':
             st.write(ndf)
         choose_type.append(' ')
-        choose_type[i]=st.sidebar.selectbox('What type of graph do you want?', ('Annual GDP', 'Annual GDP2'), key=f"choosetype_{i}")
+        choose_type[i]=st.sidebar.selectbox('What type of graph do you want?', ('Стандартный график изменений в осях XY', 'Сравнение стран (работа с картами)'), key=f"choosetype_{i}")
         if choose_type_to_func[choose_type[i]] == '1':
             plotType1(ndf)
         if choose_type_to_func[choose_type[i]] == '2':
