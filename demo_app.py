@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 from IPython.display import HTML
 import re
 import geopandas as gpd
+import random as rd
+from selenium import webdriver
 
 st.header("Почему психическое здоровье -- это важно?")
 st.subheader("Сайт с заботой о вашем ментальном здоровье")
@@ -325,4 +327,33 @@ with st.echo(code_location='below'):
         st.write(df)
     any_graph(i, df)
 
+    st.write(
+        'Если Вы хотите обратиться за помощью к специалисту, но не знаете, к кому, можете воспользоваться этим рандомайзером.',
+        "Он откроет ссылку на страницу одного из специалистов Профессиональной Психотерапевтической Лиги и (при наличии) выпишет первый указанный им мобильный телефон для связи.")
 
+    # Функция, которая позволяет перейти на сайт случайного психотерапевта
+    def get_ps(name):
+        EXE_PATH = r'C:\Users\User\Desktop\chromedriver.exe'  # EXE_PATH это путь до ранее загруженного нами файла chromedriver.exe
+        driver = webdriver.Chrome(executable_path=EXE_PATH)
+        entrypoint = str("https://oppl.ru/professionalyi-personalii/" + name + ".html")
+        print(entrypoint)
+        driver.get(entrypoint)
+        element = driver.find_element_by_xpath("/html/body/div[6]/div[1]/div[3]")
+        numbers = re.search(r'(\+)?[\+7,8](.)?(\()?\d{3,3}(\))?(.)?\d{3,3}((-)?\d{2,2}){2,2}', element.text)
+        print(numbers.group(0))
+
+
+    # Парсим список ссылок на психотерапевтов с сайта
+
+    want_consult=st.selectbox("Подобрать специалиста?", ("Нет", "Да"))
+    if want_consult=="Да":
+        SITE_URL = "https://oppl.ru/cat/professionalyi-personalii.html"
+        res = requests.get(SITE_URL)
+        list_ps = []
+        raw_material = BeautifulSoup(res.content, 'html.parser')
+        bad_list = raw_material.find_all("a", {"class": "category sm"})
+        for i in bad_list:
+            url = i.get("href")
+            list_ps.append(url[27:-5])
+        our_ps = rd.choice(list_ps)
+        get_ps(our_ps)
