@@ -16,7 +16,7 @@ from pyvis.network import Network
 
 st.header("Сайт с заботой о вашем ментальном здоровье")
 st.subheader("Почему это важно?")
-st.write("Как ориентироваться (для упрощения проверки):",
+st.markdown("Как ориентироваться (для упрощения проверки):",
          "Сначала идут все результаты, потом -- весь код. Программа разделена на подписанные",
          "смысловые блоки (с помощью #).",
          "Чтобы сайт не грузился слишком долго, большая часть функционала подгружается",
@@ -394,7 +394,7 @@ with st.echo(code_location='below'):
 
 
 
-"""
+
     st.write("Давайте построим простую предсказательную модель зависимости смертей по причине расстройств пищевого поведения от распространённости этих расстройств и от года. ",
              "Возьмём общемировую статистику и воспользуемся линейной регрессией.")
     ##Машинное обучение сделано с опорой на конспект лекции от 20 апреля 2021 года.
@@ -410,11 +410,11 @@ with st.echo(code_location='below'):
     regr.fit(X, y)
     st.write("regr.coef_: ", regr.coef_, " regr.intercept_: ", regr.intercept_)
     df_new = df_new.assign(year=lambda x: x[df_new.columns.values.tolist()[0]].astype("int64"))
-
-    fig, ax = plt.subplots()
+    fig, ax = subplots()
     df_new.plot.scatter("Year", df_new.columns.values.tolist()[1])
-    df_new.plot(x=X["Year"], y=regr.predict(X), color='C1')
+    df_new.plot(x=df_new["Year"], y=regr.predict(X), color='C1')
     st.pyplot(fig)
+    #st.mpl_fig(fig)
 
     st.write("Проверим, действительно ли модель улучшается, когда предсказывает по двум параметрам, а не по одному.")
     df_new = df_new.sample(frac=1, random_state=1)
@@ -437,5 +437,5 @@ with st.echo(code_location='below'):
     st.write("Среднеквадратичная ошибка при использовании для предсказания только распространённости расстройств:", get_RSS([df_new.columns.values.tolist()[2]], regr))
     st.write("Среднеквадратичная ошибка при использовании для предсказания обоих параметров", get_RSS(["Year", df_new.columns.values.tolist()[2]], regr))
     st.write("Следовательно, предсказание на основе двух параметров наиболее эффективное. Как можно заметить, с течением времени смертность от расстройств пищевого поведения увеличивается.")
-"""
+
 
