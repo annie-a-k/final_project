@@ -346,6 +346,7 @@ with st.echo(code_location='below'):
         driver.get(entrypoint)
         element = driver.find_element_by_xpath("/html/body/div[6]/div[1]/div[3]")
         st.write(entrypoint)
+        driver.open(entrypoint)
         numbers = re.search(r'(\+)?[\+7,8](.)?(\()?\d{3,3}(\))?(.)?\d{3,3}((-)?\d{2,2}){2,2}', element.text)
         if not isinstance(numbers, NoneType):
             st.write(numbers.group(0))
