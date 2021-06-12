@@ -238,9 +238,10 @@ with st.echo(code_location='below'):
         data[data.columns.values.tolist()[3]] = data[data.columns.values.tolist()[3]].fillna(0)
         merged = gdf.merge(data, left_on='country_code', right_on='Code', how='left')
         merged.head()
-        st.pyplot(merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
+        merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
             prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64")
-        ).plot(column=merged.columns.values.tolist()[6], legend=True))
+        ).plot(column=merged.columns.values.tolist()[6], legend=True)
+        st.pyplot()
 
     def any_graph(i, df):
         st.sidebar.write(f'Graph №{i+1}')
