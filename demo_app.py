@@ -6,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from IPython.display import HTML
 import re
+import geopandas as gpd
 
 st.header("Почему психическое здоровье -- это важно?")
 st.subheader("Сайт с заботой о вашем ментальном здоровье")
@@ -232,11 +233,17 @@ with st.echo(code_location='below'):
         st.pyplot(fig)
 
     def plotType2(fr):
-        fig, ax = plt.subplots()
-        for country in fr['Entity'].unique():
-            countryfr = fr.loc[fr['Entity'] == country]
-            countryfr.plot(y=fr.columns.values.tolist()[3], x='Year', ax=ax, xlabel='Year', ylabel='Prevalence', label=country)
+        shapefile = 'ne_110m_admin_0_countries.shp'
+        gdf = gpd.read_file(shapefile)[['ADMIN', 'ADM0_A3', 'geometry']]
+        gdf.columns = ['country', 'country_code', 'geometry']
         st.pyplot(fig)
+        data = fr
+        data[data.columns.values.tolist()[3]] = data[data.columns.values.tolist()[3]].fillna(0)
+        merged = gdf.merge(data, left_on='country_code', right_on='Code', how='left')
+        merged.head()
+        merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
+            prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64")
+        ).plot(column=merged.columns.values.tolist()[6], legend=True)
 
     def any_graph(i, df):
         st.sidebar.write(f'Graph №{i+1}')
@@ -308,3 +315,5 @@ with st.echo(code_location='below'):
     if function_show_df_to_func[function_show_df[0]]=='yes':
         st.write(df)
     any_graph(i, df)
+
+
