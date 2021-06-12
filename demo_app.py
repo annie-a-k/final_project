@@ -371,10 +371,10 @@ with st.echo(code_location='below'):
 
 
 
-
+    st.write("А это граф, визуализирующий наличие корреляции между повышенной распространённостью различных расстройств (выше среднемирового уровня)")
     frrame = pd.read_csv('for_graf_by_site.csv')
     frrame = frrame.dropna(how='all')
-    frrame = frrame[frrame['Year']== 1990]
+    frrame = frrame[frrame['Year']== 2017]
     graph = nx.DiGraph()
     for _, row in frrame.iterrows():
         graph.add_edge(row['Unnamed: 2'], row["Unnamed: 3"])
