@@ -236,14 +236,12 @@ with st.echo(code_location='below'):
         data = fr.drop(["Code", "Year"], axis=1)
         data[data.columns.values.tolist()[1]] = data[data.columns.values.tolist()[1]].fillna(0)
         merged = gdf.merge(data, left_on='country_code', right_on='Code', how='left')
-        merged.head()
+        st.write(merged.head())
         merged = merged[(merged['Year'] == 1990) | (merged['Year'] == '1990')]
-        #начал отладку здесь
-        fig=merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
+        merged.dropna(axis=0, subset=[merged.columns.values.tolist()[6]]).assign(
             prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64")
         )
-        ax=fig.plot(column="prevalence", legend=True)
-        merged.plot(ax=ax)
+        merged.plot(ax=ax, column="prevalence", legend=True)
         st.pyplot(fig)
 
     def any_graph(i, df):
