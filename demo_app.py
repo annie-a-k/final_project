@@ -343,7 +343,7 @@ with st.echo(code_location='below'):
 
     fig, ax = plt.subplots()
     df_new.plot.scatter(df_new.columns.values.tolist()[0], df_new.columns.values.tolist()[1])
-    df_new.plot(X.iloc[df_new.columns.values.tolist()[0]], regr.predict(X), color='C1')
+    df_new.plot(x=X[df_new.columns.values.tolist()[0]], y=regr.predict(X), color='C1')
     st.pyplot(fig)
 
     st.write("Проверим, действительно ли модель улучшается, когда предсказывает по двум параметрам, а не по одному.")
