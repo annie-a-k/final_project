@@ -45,7 +45,6 @@ with st.echo(code_location='below'):
     st.write(classification_categories_html)
 
 st.write("Парсим расстройства из категорий и объединяем их в одну табличку")
-with st.echo(code_location='below'):
     classification = pd.DataFrame()
     for elem in cat:
         new = requests.get("https://mkb-10.com" + elem.get("href"))
@@ -75,7 +74,6 @@ with st.echo(code_location='below'):
     st.write(classification_html)
 
 st.write("Объединяем табличку с расстройствами и категориями по кодам")
-with st.echo(code_location='below'):
     def pure_code(full_code):
         return (int(full_code.replace("F", "").replace("*", "")))
 
@@ -108,7 +106,6 @@ st.write("Here you can find information about disorders based on their' codes. "
          "You can print full codes (for ex., F02*) or only numbers.",
          "Divide codes using space.",
          "If you want a series of codes you can print them via \"-\" (for ex., 15-F18).")
-with st.echo(code_location='below'):
     find_code_raw = list(st.text_input("Write codes here:").split(" "))
     if not find_code_raw==[""]:
         find_code = []
@@ -204,8 +201,8 @@ with st.echo(code_location='below'):
         'No, I am tired': 'no'
     }
     choose_type_to_func = {
-        'Annual GDP': 'GDP',
-        'Annual GDP2': 'GDP2'
+        'Стандартный график изменений в осях XY': '1',
+        'Сравнение стран (работа с картами)': '2'
     }
     function_show_df_to_func = {
         'Yes!': 'yes',
@@ -267,10 +264,10 @@ with st.echo(code_location='below'):
             st.write(ndf)
         choose_type.append(' ')
         choose_type[i]=st.sidebar.selectbox('What type of graph do you want?', ('Annual GDP', 'Annual GDP2'), key=f"choosetype_{i}")
-        if choose_type_to_func[choose_type[i]] == 'GDP':
+        if choose_type_to_func[choose_type[i]] == '1':
             plotType1(ndf)
-        if choose_type_to_func[choose_type[i]] == 'GDP2':
-            plotType1(ndf)
+        if choose_type_to_func[choose_type[i]] == '2':
+            plotType2(ndf)
         i = i + 1
         function_plus_field.append(' ')
         function_plus_field[i-1]=st.selectbox('Do you want one more graph?', ('Yes :)', 'No, I am tired'), index=1, key=f"choosefield_{i-1}")
