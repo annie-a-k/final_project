@@ -102,7 +102,6 @@ with st.echo(code_location='below'):
     full_classification = drop_extra_columns(full_classification_for_search)
     full_classification_html = HTML(full_classification.head(table3).to_html(escape=False))
     st.write(full_classification_html)
-    #slider with numbers: how much to show
 
     st.write("Here you can find information about disorders based on their' codes. ",
          "You can print full codes (for ex., F02*) or only numbers.",
@@ -160,21 +159,21 @@ with st.echo(code_location='below'):
     st.write("Info is from https://ourworldindata.org/mental-health")
     st.write("Mental and substance use disorders are common globally. In the map we see that globally, mental and substance use disorders are very common: around 1-in-7 people (15%) have one or more mental or substance use disorders. (c) Our world in data")
     share_with_disorders=pd.read_csv('share-with-mental-and-substance-disorders.csv')
-    st.write(share_with_disorders)
+    #st.write(share_with_disorders)
     world_share_with_disorders=share_with_disorders[share_with_disorders["Entity"]=="World"]
-    st.write(world_share_with_disorders)
+    #st.write(world_share_with_disorders)
     prevalence_by_disorder=pd.read_csv("prevalence-by-mental-and-substance-use-disorder.csv")
-    st.write(prevalence_by_disorder)
+    #st.write(prevalence_by_disorder)
     share_by_gender=pd.read_csv("share-with-mental-or-substance-disorders-by-sex.csv")
-    st.write(share_by_gender)
+    #st.write(share_by_gender)
     share_of_all_diseases=pd.read_csv("mental-and-substance-use-as-share-of-disease.csv")
-    st.write(share_of_all_diseases)
+    #st.write(share_of_all_diseases)
     share_with_an_eating_disorder=pd.read_csv("share-with-an-eating-disorder.csv")
-    st.write(share_with_an_eating_disorder)
+    #st.write(share_with_an_eating_disorder)
     prevalence_of_eating_disorders_by_gender=pd.read_csv("prevalence-of-eating-disorders-in-males-vs-females.csv")
-    st.write(prevalence_of_eating_disorders_by_gender)
+    #st.write(prevalence_of_eating_disorders_by_gender)
     deaths_from_eating_disorders=pd.read_csv("deaths-from-eating-disorders.csv")
-    st.write(deaths_from_eating_disorders)
+    #st.write(deaths_from_eating_disorders)
 
     share_with_depression = pd.read_csv("share-with-depression.csv")
     st.write(share_with_depression)
@@ -203,9 +202,9 @@ with st.echo(code_location='below'):
         'Yes :)': 'yes',
         'No, I am tired': 'no'
     }
-    choose_type_to_func = {
-        'Стандартный график изменений в осях XY': '1',
-        'Сравнение стран (работа с картами)': '2'
+    function_choose_df_to_func={
+        'График, оси XY': '1',
+        'Карта': '2'
     }
     function_show_df_to_func = {
         'Yes!': 'yes',
@@ -260,14 +259,21 @@ with st.echo(code_location='below'):
         function_yearmin.append(' ')
         function_yearmax.append(' ')
         function_all_or_some.append(" ")
-        function_all_or_some[i]=st.sidebar.selectbox('Хотите рассмотреть все регионы или отдельные?', ("Все", "Отдельные"), key=f"chooseallorsome_{i}")
-        if function_all_or_some[i]=="Все":
-            function_country[i]=df['Entity'].unique()
-        else:
+        choose_type.append(' ')
+        choose_type[i] = st.sidebar.selectbox('What type of graph do you want?', ('График, оси XY', 'Карта'),
+                                              key=f"choosetype_{i}")
+        if choose_type_to_func[choose_type[i]] == '1':
             function_country[i]=st.sidebar.multiselect('Choose regions', df['Entity'].unique(), key=f"chooseregion_{i}")
-        function_yearmin[i]=st.sidebar.slider('What year you want to start from?', 1990, 2017, 1990, 1, key=f"choosemin_{i}")
-        function_yearmax[i]=st.sidebar.slider('What year you want to end with?', function_yearmin[i], 2017, 2017, 1, key=f"choosemax_{i}")
-        year = list(range(function_yearmin[i], function_yearmax[i] + 1))
+            function_yearmin[i] = st.sidebar.slider('What year you want to start from?', 1990, 2017, 1990, 1,
+                                                    key=f"choosemin_{i}")
+            function_yearmax[i] = st.sidebar.slider('What year you want to end with?', function_yearmin[i], 2017, 2017,
+                                                    1, key=f"choosemax_{i}")
+            year = list(range(function_yearmin[i], function_yearmax[i] + 1))
+        if choose_type_to_func[choose_type[i]] == '2':
+            function_country[i]=df['Entity'].unique()
+            function_all_or_some[i]=st.sidebar.slider('Выберите год', 1990, 2017, 1990, 1,
+                                                    key=f"choosemin_{i}")
+            year=[function_all_or_some[i]]
         df=df.dropna()
         ndf0 = df.loc[df['Entity'].isin(function_country[i])]
         ndf0['Year'] = pd.to_numeric(ndf0['Year'])
@@ -276,8 +282,6 @@ with st.echo(code_location='below'):
         function_show_df[i + 1]=st.selectbox('Do you want to show the dataframe?', ('Yes!', 'O.o No...'), key=f"chooseshow_{i+1}")
         if function_show_df_to_func[function_show_df[i + 1]] == 'yes':
             st.write(ndf)
-        choose_type.append(' ')
-        choose_type[i]=st.sidebar.selectbox('What type of graph do you want?', ('Стандартный график изменений в осях XY', 'Сравнение стран (работа с картами)'), key=f"choosetype_{i}")
         if choose_type_to_func[choose_type[i]] == '1':
             plotType1(ndf)
         if choose_type_to_func[choose_type[i]] == '2':
@@ -322,7 +326,7 @@ with st.echo(code_location='below'):
         "Распространённость тревожного расстройства в зависимости от пола"),
                                        key=f"chooseshow_{0}")
     df=function_choose_df_to_func[function_choose_df[0]]
-    function_show_df[0] = st.selectbox('Do you want to show the original dataframe?', ('Yes!', 'O.o No...'), key=f"choosdf_{0}")
+    function_show_df[0] = st.selectbox('Do you want to show the original dataframe?', ('Yes!', 'O.o No...'), index=1 key=f"choosdf_{0}")
     if function_show_df_to_func[function_show_df[0]]=='yes':
         st.write(df)
     any_graph(i, df)
@@ -333,8 +337,7 @@ with st.echo(code_location='below'):
 
     # Функция, которая позволяет перейти на сайт случайного психотерапевта
     def get_ps(name):
-        EXE_PATH = r'chromedriver.exe'  # EXE_PATH это путь до ранее загруженного нами файла chromedriver.exe
-        driver = webdriver.Chrome(executable_path=EXE_PATH)
+        driver = webdriver.Chrome(executable_path='chromedriver.exe')
         entrypoint = str("https://oppl.ru/professionalyi-personalii/" + name + ".html")
         driver.get(entrypoint)
         element = driver.find_element_by_xpath("/html/body/div[6]/div[1]/div[3]")
@@ -346,13 +349,13 @@ with st.echo(code_location='below'):
 
     want_consult=st.selectbox("Подобрать специалиста?", ("Нет", "Да"))
     if want_consult=="Да":
-        SITE_URL = "https://oppl.ru/cat/professionalyi-personalii.html"
-        res = requests.get(SITE_URL)
+        URL1 = "https://oppl.ru/cat/professionalyi-personalii.html"
+        res = requests.get(URL1)
         list_ps = []
         raw_material = BeautifulSoup(res.content, 'html.parser')
         bad_list = raw_material.find_all("a", {"class": "category sm"})
         for i in bad_list:
-            url = i.get("href")
-            list_ps.append(url[27:-5])
+            url2 = i.get("href")
+            list_ps.append(url2[27:-5])
         our_ps = rd.choice(list_ps)
         get_ps(our_ps)
