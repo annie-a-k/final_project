@@ -336,11 +336,10 @@ with st.echo(code_location='below'):
         EXE_PATH = r'C:\Users\User\Desktop\chromedriver.exe'  # EXE_PATH это путь до ранее загруженного нами файла chromedriver.exe
         driver = webdriver.Chrome(executable_path=EXE_PATH)
         entrypoint = str("https://oppl.ru/professionalyi-personalii/" + name + ".html")
-        print(entrypoint)
         driver.get(entrypoint)
         element = driver.find_element_by_xpath("/html/body/div[6]/div[1]/div[3]")
         numbers = re.search(r'(\+)?[\+7,8](.)?(\()?\d{3,3}(\))?(.)?\d{3,3}((-)?\d{2,2}){2,2}', element.text)
-        print(numbers.group(0))
+        st.write(numbers.group(0))
 
 
     # Парсим список ссылок на психотерапевтов с сайта
