@@ -345,7 +345,7 @@ with st.echo(code_location='below'):
         element = driver.find_element_by_xpath("/html/body/div[6]/div[1]/div[3]")
         st.write(entrypoint)
         numbers = re.search(r'(\+)?[\+7,8](.)?(\()?\d{3,3}(\))?(.)?\d{3,3}((-)?\d{2,2}){2,2}', element.text)
-        if not isinstance(numbers, NoneType):
+        if not numbers==None:
             st.write(numbers.group(0))
         else:
             st.write("Телефонные номера не найдены")
