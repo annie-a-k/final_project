@@ -202,7 +202,7 @@ with st.echo(code_location='below'):
         'Yes :)': 'yes',
         'No, I am tired': 'no'
     }
-    function_choose_df_to_func={
+    function_choose_type_to_func={
         'График, оси XY': '1',
         'Карта': '2'
     }
