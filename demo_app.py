@@ -23,9 +23,10 @@ st.write("Здесь вы сможете узнать больше о класс
          "Например, чтобы посмотреть на несколько вариантов построения графиков, необходимо выбрать одну из опций (выбрать датафрейм, выбрать тип графика, выбрать данные). ",
          "Также можно добавить неограниченное количество визуализаций с любой информацией и типом графика из предложенных опций. ",
          "3. Как убедиться в том, что использовалось в программе? Смотрите на комментарии в коде в конце приложения. ",
-         "4. Использовано: pandas (работаем с МКБ-10, объединяем; добавляем HTML для кликабельных ссылок); веб-скреппинг через beautifulsoup и selenium плюс REST API (парсинг по МКБ-10, рандомный психотерапевт); ",
-         " ",
-         "По умолчанию выбрана опция не показывать результаты, которую необходимо будет изменить для отображения.")
+         "4. Использовано: pandas (работаем с МКБ-10, объединяем; добавляем HTML для кликабельных ссылок; выбираем строчки по кодам заболеваний, записанным разными способами); веб-скреппинг через beautifulsoup и selenium плюс REST API (парсинг по МКБ-10, рандомный психотерапевт); ",
+         "визуализация данных и геоданные (универсальные графики (для нескольких таблиц) двух типов с помощью библиотек matplotlib, geopandas); ",
+         "streamlit (очевидно); регулярные выражения (выбор строк из МКБ-10, поиск мобильного телефона психотерапевта); ",
+         "машинное обучение (регрессия с расстройствами пищевого поведения, сравнение качества предсказаний по разному количеству данных); граф (networkx). ")
 st.write("Создаём dataframe с категориями психических расстройств и расстройств поведения по МКБ-10. По ссылочкам можно перейти в соответствующие разделы на сайте.")
 with st.echo(code_location='below'):
     url = 'https://mkb-10.com/index.php?pid=4001'
@@ -302,9 +303,6 @@ with st.echo(code_location='below'):
             df = function_choose_df_to_func[function_choose_df[i]]
             any_graph(i, df)
 
-    st.write("In this app you can visualize data on country, regional and world GDP from 1960 to 2016 year."
-             " The data is taken from Kaggle, where it is sourced from the World Bank."
-             " You can find the source on Kaggle here: https://www.kaggle.com/tunguz/country-regional-and-world-gdp")
     function_show_df.append(' ')
     function_choose_df.append(' ')
     function_choose_df[0] = st.selectbox('What dataframe to work with?', ('Доля населения с психическими расстройствами и расстройствами поведения по странам',
@@ -340,9 +338,9 @@ with st.echo(code_location='below'):
     graph.remove_node("Nothing")
     #net = Network(width='800px', notebook=True)
     #net.from_nx(graph)
-    nx.draw_shell(graph, with_labels=True)
+    fig=nx.draw_shell(graph, with_labels=True)
     #st.write(net.show("visualization.html"))
-    st.pyplot(graph)
+    st.pyplot(fig)
 
 
 
