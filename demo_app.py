@@ -152,7 +152,6 @@ with st.echo(code_location='below'):
         if not no_disorders == "" and count_no == 1:
             st.write("Расстройства с кодом", no_disorders[:-2], "не существует.")
         st.write("Мы смогли выбрать данные из таблички!")
-        st.balloons()
     else:
         st.write("Вы не выбрали ни одного кода.")
 
@@ -176,16 +175,13 @@ with st.echo(code_location='below'):
     #st.write(deaths_from_eating_disorders)
 
     share_with_depression = pd.read_csv("share-with-depression.csv")
-    st.write(share_with_depression)
+    #st.write(share_with_depression)
     prevalence_of_depression_by_gender = pd.read_csv("prevalence-of-depression-males-vs-females.csv")
-    st.write(prevalence_of_depression_by_gender)
+    #st.write(prevalence_of_depression_by_gender)
     share_with_anxiety_disorders = pd.read_csv("share-with-anxiety-disorders.csv")
-    st.write(share_with_anxiety_disorders)
+    #st.write(share_with_anxiety_disorders)
     prevalence_of_anxiety_by_gender = pd.read_csv("prevalence-of-anxiety-disorders-males-vs-females.csv")
-    st.write(prevalence_of_anxiety_by_gender)
-
-    #больничные койки на душевнобольных
-    #HLTHRES=pd.read_csv("HLTHRES_228_RU.csv")
+    #st.write(prevalence_of_anxiety_by_gender)
 
 
 
@@ -236,7 +232,7 @@ with st.echo(code_location='below'):
         shapefile = 'ne_110m_admin_0_countries.shp'
         gdf = gpd.read_file(shapefile)[['ADMIN', 'ADM0_A3', 'geometry']]
         gdf.columns = ['country', 'country_code', 'geometry']
-        data = fr
+        data = fr.drop(["Code", "Year"], axis=1)
         data[data.columns.values.tolist()[3]] = data[data.columns.values.tolist()[3]].fillna(0)
         merged = gdf.merge(data, left_on='country_code', right_on='Code', how='left')
         merged.head()
@@ -359,3 +355,4 @@ with st.echo(code_location='below'):
             list_ps.append(url2[27:-5])
         our_ps = rd.choice(list_ps)
         get_ps(our_ps)
+        st.balloons()
