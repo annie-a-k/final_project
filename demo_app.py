@@ -342,7 +342,7 @@ with st.echo(code_location='below'):
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-##Конец позаимствованного кода
+##Конец позаимствованного кода.
 
         entrypoint = str("https://oppl.ru/professionalyi-personalii/" + name + ".html")
         driver.get(entrypoint)
