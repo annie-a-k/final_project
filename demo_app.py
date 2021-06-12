@@ -325,8 +325,8 @@ with st.echo(code_location='below'):
         st.write(df)
     any_graph(i, df)
 
-    st.write("Давайте построим простую предсказательную модель зависимости смертей по причине расстройств пищевого поведения от распространённости этих расстройств и от года.",
-             "Воспользуемся линейной регрессией.")
+    st.write("Давайте построим простую предсказательную модель зависимости смертей по причине расстройств пищевого поведения от распространённости этих расстройств и от года. ",
+             "Возьмём общемировую статистику и воспользуемся линейной регрессией.")
     ##Машинное обучение сделано с опорой на конспект лекции от 20 апреля 2021 года.
     df01_new = share_with_an_eating_disorder
     df02_new = deaths_from_eating_disorders
@@ -339,8 +339,12 @@ with st.echo(code_location='below'):
     y = df_new[df_new.columns.values.tolist()[1]]
     regr.fit(X, y)
     st.write("regr.coef_: ", regr.coef_, " regr.intercept_: ", regr.intercept_)
+
+    fig1, ax = plt.subplots()
     df_new.plot.scatter(df_new.columns.values.tolist()[0], df_new.columns.values.tolist()[1])
-    st.pyplot(X[df_new.columns.values.tolist()[0]], regr.predict(X), color='C1')
+    df_new.plot(X[df_new.columns.values.tolist()[0]], regr.predict(X), color='C1')
+    st.pyplot(fig1)
+
     st.write("Проверим, действительно ли модель улучшается, когда предсказывает по двум параметрам, а не по одному.")
     df_new = df_new.sample(frac=1, random_state=1)
     train = df_new[:int(df_new.shape[0] * 0.7)]
