@@ -236,7 +236,7 @@ with st.echo(code_location='below'):
         merged = gdf.merge(data, left_on='country_code', right_on='Code', how='left')
         merged=merged.drop(["Code", "Year", "country", "country_code", "Entity"], axis=1)
         merged=merged.dropna(axis=0, subset=[merged.columns.values.tolist()[1]]).assign(
-            prevalence=lambda x: x[merged.columns.values.tolist()[6]].astype("int64"))
+            prevalence=lambda x: x[merged.columns.values.tolist()[1]].astype("int64"))
         st.write(merged.head())
         fig, ax = plt.subplots()
         merged.plot(ax=ax, column="prevalence", legend=True)
